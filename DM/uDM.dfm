@@ -6,14 +6,17 @@ object DataModule1: TDataModule1
     Params.Strings = (
       
         'Database=D:\Dokumente\Embarcadero\Studio\Projekte\TicketMaster\D' +
-        'M\AppData'
+        'M\Database.sqlite'
       'DriverID=SQLite')
+    Connected = True
     LoginPrompt = False
     Left = 24
     Top = 72
   end
   object FDQGetToken: TFDQuery
     Connection = FDConnection
+    SQL.Strings = (
+      'select * from Appdata')
     Left = 96
     Top = 72
   end

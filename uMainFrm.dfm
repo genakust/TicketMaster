@@ -11,6 +11,8 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnDestroy = FormDestroy
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object SpeedButton1: TSpeedButton
@@ -18,7 +20,6 @@ object Form1: TForm1
     Top = 120
     Width = 153
     Height = 57
-    OnClick = SpeedButton1Click
   end
   object RESTClient1: TRESTClient
     Params = <>

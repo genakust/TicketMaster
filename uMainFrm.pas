@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
-  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons;
+  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons, uAppData;
 
 type
   TForm1 = class(TForm)
@@ -13,9 +13,11 @@ type
     RESTRequest1: TRESTRequest;
     RESTResponse1: TRESTResponse;
     SpeedButton1: TSpeedButton;
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
-    { Private-Deklarationen }
+    FTokenObj: TAppData;
+    FToken: string;
   public
     { Public-Deklarationen }
   end;
@@ -25,19 +27,18 @@ var
 
 implementation
 
-uses
-  uAppData;
 
 {$R *.dfm}
 
-procedure TForm1.SpeedButton1Click(Sender: TObject);
-var
-  appData: TAppData;
-  token:string;
+procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  appData:= TAppData.GetInstance;
-  token:= appData.Token;
-  appData.Free;
+  FTokenObj.Free;
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  FTokenObj:= TAppData.GetInstance;
+  FToken:= FTokenObj.Token;
 end;
 
 initialization

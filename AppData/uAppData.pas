@@ -7,8 +7,9 @@ uses
 
 type
 
-  /// <summary>
-  TAppData = class
+  /// <summary>Token holder as Singleton
+  /// </summary>
+  TAppData = class sealed
   private
     class var FAppData: TAppData;
     function GetToken: string;

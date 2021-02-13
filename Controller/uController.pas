@@ -3,16 +3,20 @@ unit uController;
 interface
 
 uses
-  uTiketmasterApi;
+  uTiketmasterApi, uAppData;
 
 type
   TController = class
   private
     FApiStrings: TTiletmasterApi;
+    FTokenObj: TAppData;
+    FToken: string;
+    function GetToken: string;
   public
     constructor Create;
     destructor Destroy; override;
     function GetBaseURL: string;
+    property Token : string read GetToken;
   end;
 
 implementation
@@ -25,11 +29,14 @@ begin
   inherited;
 
   FApiStrings:= TTiletmasterApi.Create;
+  FTokenObj := TAppData.GetInstance;
+  FToken := FTokenObj.Token;
 end;
 
 destructor TController.Destroy;
 begin
   FApiStrings.Free;
+  FTokenObj.Free;
 
   inherited;
 end;
@@ -41,4 +48,10 @@ begin
   Result:= FApiStrings.BaseUrl;
 end;
 
+{$REGION '< Properties >'}
+function TController.GetToken: string;
+begin
+  Result:= FToken;
+end;
+{$ENDREGION}
 end.

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
-  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons, uAppData,
+  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   uController, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
@@ -20,12 +20,9 @@ type
     Memo1: TMemo;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
   private
     FController: TController;
-    FTokenObj: TAppData;
-    FToken: string;
     FErrorText: string;
   public
     { Public-Deklarationen }
@@ -42,25 +39,17 @@ uses
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
 
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  FController := TController.Create;
-end;
-
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  FTokenObj.Free;
   FController.Free;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  // Is here because DM- module should be created first.
+  FController := TController.Create;
   RESTClient.BaseURL := FController.GetBaseURL +
-    'classificationName=music&dmaId=324&apikey={apikey}';
-  FTokenObj := TAppData.GetInstance;
-  FToken := FTokenObj.Token;
-  RESTClient.BaseURL := FController.GetBaseURL +
-    'classificationName=music&dmaId=324&apikey=' + FToken;
+    'classificationName=music&dmaId=324&apikey=' + FController.Token;
 end;
 
 procedure TForm1.SpeedButton1Click(Sender: TObject);

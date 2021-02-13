@@ -42,7 +42,7 @@ begin
       while not FDQGetToken.Eof do
       begin
         Result := FDQGetToken.FieldByName('Token').AsString;
-
+        FDQGetToken.Next;
       end;
     end;
   finally

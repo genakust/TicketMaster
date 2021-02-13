@@ -3,15 +3,14 @@ unit uAppData;
 interface
 
 uses
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, System.SysUtils;
 
 type
 
   /// <summary>
-  TAppData = class sealed
+  TAppData = class
   private
     class var FAppData: TAppData;
-    constructor Create;
     function GetToken: string;
   public
     destructor Destroy; override;
@@ -24,19 +23,14 @@ var
 
 implementation
 
+uses
+  uDM;
+
 { TAppData }
 
-uses uDM, System.SysUtils;
-
-constructor TAppData.Create;
-begin
-  inherited;
-
-end;
 
 destructor TAppData.Destroy;
 begin
-  FAppData.DisposeOf;
 
   inherited;
 end;

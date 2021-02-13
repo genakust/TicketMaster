@@ -18,6 +18,7 @@ type
     { Private-Deklarationen }
   public
     { Public-Deklarationen }
+    function GetToken: string;
   end;
 
 var
@@ -26,7 +27,27 @@ var
 implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
-
 {$R *.dfm}
+{ TDataModule1 }
+
+function TDataModule1.GetToken: string;
+begin
+  FDQGetToken.Close;
+
+  FDQGetToken.Open;
+  try
+    if (FDQGetToken.RecordCount > 0) then
+    begin
+      FDQGetToken.First;
+      while not FDQGetToken.Eof do
+      begin
+        Result := FDQGetToken.FieldByName('Token').AsString;
+
+      end;
+    end;
+  finally
+    FDQGetToken.Close;
+  end;
+end;
 
 end.

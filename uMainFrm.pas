@@ -25,4 +25,6 @@ implementation
 
 {$R *.dfm}
 
+initialization
+    ReportMemoryLeaksOnShutdown:= true;
 end.

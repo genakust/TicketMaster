@@ -3,7 +3,8 @@ unit uMainFrm;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons, uAppData;
 
@@ -27,8 +28,9 @@ var
 
 implementation
 
-
 {$R *.dfm}
+
+{$REGION '< Form Create/Show/Destroy >'}
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
@@ -37,10 +39,13 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  FTokenObj:= TAppData.GetInstance;
-  FToken:= FTokenObj.Token;
+  FTokenObj := TAppData.GetInstance;
+  FToken := FTokenObj.Token;
 end;
+{$ENDREGION}
 
 initialization
-    ReportMemoryLeaksOnShutdown:= true;
+
+ReportMemoryLeaksOnShutdown := true;
+
 end.

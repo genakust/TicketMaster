@@ -38,6 +38,7 @@ type
     FErrorText: string;
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
+    procedure GetListBySuccess;
   public
     { Public-Deklarationen }
   end;
@@ -65,6 +66,18 @@ begin
 end;
 
 {$ENDREGION}
+{$REGION '< Get data from request >'}
+procedure TForm1.GetListBySuccess;
+var
+  Value: TJSONValue;
+begin
+  Value := TJSONObject.ParseJSONValue( RESTResponse.Content );
+  try
+
+  finally
+
+  end;
+end;
 
 procedure TForm1.btnSearchClick(Sender: TObject);
 var
@@ -112,6 +125,7 @@ begin
   newTask.Start;
 
 end;
+{$ENDREGION}
 
 {$REGION '< Actionslist >'}
 procedure TForm1.actProgressBarProgressExecute(Sender: TObject);

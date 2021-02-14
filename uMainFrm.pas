@@ -15,9 +15,9 @@ type
     RESTClient: TRESTClient;
     RESTRequest: TRESTRequest;
     RESTResponse: TRESTResponse;
-    SpeedButton1: TSpeedButton;
-    Panel1: TPanel;
-    Edit1: TEdit;
+    btnSearch: TSpeedButton;
+    panSearch: TPanel;
+    edSearchWord: TEdit;
     Memo1: TMemo;
     panActivityPanel: TPanel;
     labMessageText: TLabel;
@@ -25,9 +25,12 @@ type
     tmrProgress: TTimer;
     ActionList1: TActionList;
     actProgressBarProgress: TAction;
+    panDefaults: TPanel;
+    labCountry: TLabel;
+    cbCountries: TComboBox;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btnSearchClick(Sender: TObject);
     procedure tmrProgressTimer(Sender: TObject);
     procedure actProgressBarProgressExecute(Sender: TObject);
   private
@@ -65,7 +68,7 @@ end;
 
 {$ENDREGION}
 
-procedure TForm1.SpeedButton1Click(Sender: TObject);
+procedure TForm1.btnSearchClick(Sender: TObject);
 var
   jValue: TJSONValue;
   newTask: ITask;

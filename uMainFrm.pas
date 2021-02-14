@@ -62,8 +62,6 @@ procedure TForm1.FormShow(Sender: TObject);
 begin
   // Is here because DM- module should be created first.
   FController := TController.Create;
-  RESTClient.BaseURL := FController.GetBaseURL +
-    'classificationName=music&dmaId=324&apikey=' + FController.Token;
 end;
 
 {$ENDREGION}
@@ -73,8 +71,14 @@ var
   jValue: TJSONValue;
   newTask: ITask;
 begin
+  // URL.
+  RESTClient.BaseURL := FController.GetBaseURL +
+    'classificationName=music&dmaId=324&apikey=' + FController.Token;
+
   FErrorText := EmptyStr;
+  // Show panel for busy state.
   ShowActivityPanel(rsIsBusy);
+  // Try to get a request.
   newTask := TTask.Create(
     procedure
     begin

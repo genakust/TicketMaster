@@ -2,11 +2,15 @@ unit uTiketmasterApi;
 
 interface
 (*
-  Documentation
+  > Documentation
   https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/
 
-  Get a list of all events in the United States:
+  > Get a list of all events in the United States:
   https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey={apikey}
+
+  > Search for events sourced by Universe in the United States with keyword “devjam”:
+  https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&
+    countryCode=US&apikey={apikey}
 *)
 type
   ///<summary>Events are available from the following countries:
@@ -19,11 +23,13 @@ type
     FApiKey: string = 'apikey=';
     FAnd: string = '&';
     FCountryCode: string = 'countryCode=';
+    FKeyword:string = 'keyword=';
   private
     function GetBaseURL: string;
     function GetApiKey: string;
     function GetAnd: string;
     function GetCountryCode: string;
+    function GetKeyword: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -35,6 +41,7 @@ type
     /// </summary>
     property AndChar: string read GetAnd;
     property CountryCode : string read GetCountryCode;
+    property Keyword : string read GetKeyword;
   end;
 
 implementation
@@ -74,6 +81,11 @@ end;
 function TTiletmasterApi.GetCountryCode: string;
 begin
   Result:= FCountryCode;
+end;
+
+function TTiletmasterApi.GetKeyword: string;
+begin
+  Result:= FKeyword;
 end;
 
 {$ENDREGION}

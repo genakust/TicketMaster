@@ -35,9 +35,15 @@ object Form1: TForm1
       Width = 367
       Height = 39
       Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
       Text = 'Edit1'
-      ExplicitHeight = 21
+      ExplicitHeight = 24
     end
   end
   object Memo1: TMemo

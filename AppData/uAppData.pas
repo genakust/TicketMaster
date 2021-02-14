@@ -6,16 +6,23 @@ uses
   FireDAC.Comp.Client, System.SysUtils;
 
 type
+  IAppData = interface
+    ['{6D571E40-F272-43F8-A7C4-E899CBE82371}']
+    function GetToken: string;
+    property Token: string read GetToken;
+  end;
 
-  /// <summary>Token holder as Singleton
+  /// <summary>Token holder as Singleton.
   /// </summary>
-  TAppData = class sealed
+  /// <remarks>It is a private key.
+  /// </remarks>
+  TAppData = class sealed(TinterfacedObject, IAppData)
   private
     class var FAppData: TAppData;
     function GetToken: string;
   public
     destructor Destroy; override;
-    class function GetInstance: TAppData;
+    class function GetInstance: IAppData;
     property Token: string read GetToken;
   end;
 
@@ -36,7 +43,7 @@ begin
   inherited;
 end;
 
-class function TAppData.GetInstance: TAppData;
+class function TAppData.GetInstance: IAppData;
 begin
   TMonitor.Enter(MonitorObj);
   try

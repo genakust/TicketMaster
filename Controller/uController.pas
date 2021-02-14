@@ -9,7 +9,7 @@ type
   TController = class
   private
     FApiStrings: TTiletmasterApi;
-    FTokenObj: TAppData;
+    FTokenObj: IAppData;
     FToken: string;
     function GetToken: string;
   public
@@ -36,7 +36,6 @@ end;
 destructor TController.Destroy;
 begin
   FApiStrings.Free;
-  FTokenObj.Free;
 
   inherited;
 end;

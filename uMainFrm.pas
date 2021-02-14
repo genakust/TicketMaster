@@ -108,11 +108,13 @@ end;
 
 {$REGION '< Actionslist >'}
 procedure TForm1.actProgressBarProgressExecute(Sender: TObject);
+const
+  kPROGRESS: integer = 5;
 begin
-  if ProgressBar.Position < 100 then
-    ProgressBar.Position:= ProgressBar.Position + 5
+  if ProgressBar.Position < ProgressBar.Max then
+    ProgressBar.Position:= ProgressBar.Position + kPROGRESS
   else
-    ProgressBar.Position:= 0;
+    ProgressBar.Position:= ProgressBar.Min;
 end;
 {$ENDREGION}
 
@@ -139,7 +141,7 @@ begin
   panActivityPanel.Visible := False;
   // stop and reset progress bar
   tmrProgress.Enabled:= false;
-  ProgressBar.Position:= 0;
+  ProgressBar.Position:= ProgressBar.Min;
 end;
 
 {$ENDREGION}

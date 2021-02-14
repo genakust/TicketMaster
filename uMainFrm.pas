@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
-  uResourceStrings, uController;
+  uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList;
 
 type
   TForm1 = class(TForm)
@@ -21,10 +21,15 @@ type
     Memo1: TMemo;
     panActivityPanel: TPanel;
     labMessageText: TLabel;
-    ActivityIndicator: TActivityIndicator;
+    ProgressBar: TProgressBar;
+    tmrProgress: TTimer;
+    ActionList1: TActionList;
+    actProgressBarProgress: TAction;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure tmrProgressTimer(Sender: TObject);
+    procedure actProgressBarProgressExecute(Sender: TObject);
   private
     FController: TController;
     FErrorText: string;
@@ -101,20 +106,40 @@ begin
 
 end;
 
+{$REGION '< Actionslist >'}
+procedure TForm1.actProgressBarProgressExecute(Sender: TObject);
+begin
+  if ProgressBar.Position < 100 then
+    ProgressBar.Position:= ProgressBar.Position + 5
+  else
+    ProgressBar.Position:= 0;
+end;
+{$ENDREGION}
+
+{$REGION '< Timer >'}
+procedure TForm1.tmrProgressTimer(Sender: TObject);
+begin
+  // Progress bar
+  actProgressBarProgressExecute(nil);
+end;
+{$ENDREGION}
 {$REGION '< Activity panel >'}
 
 procedure TForm1.ShowActivityPanel(const MessageText: string);
 begin
   panActivityPanel.Alignment := TAlignment.taCenter;
   labMessageText.Caption := MessageText;
-  ActivityIndicator.Enabled := True;
   panActivityPanel.Visible := True;
+  // start progress bar
+  tmrProgress.Enabled:= true;
 end;
 
 procedure TForm1.HideActivityPanel;
 begin
-  ActivityIndicator.Enabled := False;
   panActivityPanel.Visible := False;
+  // stop and reset progress bar
+  tmrProgress.Enabled:= false;
+  ProgressBar.Position:= 0;
 end;
 
 {$ENDREGION}

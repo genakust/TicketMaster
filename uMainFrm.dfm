@@ -77,9 +77,14 @@ object Form1: TForm1
       Layout = tlCenter
       ExplicitWidth = 66
     end
-    object ActivityIndicator: TActivityIndicator
-      Left = 96
+    object ProgressBar: TProgressBar
+      Left = 40
       Top = 48
+      Width = 150
+      Height = 17
+      Align = alCustom
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      TabOrder = 0
     end
   end
   object RESTClient: TRESTClient
@@ -99,5 +104,19 @@ object Form1: TForm1
   object RESTResponse: TRESTResponse
     Left = 184
     Top = 416
+  end
+  object tmrProgress: TTimer
+    Enabled = False
+    OnTimer = tmrProgressTimer
+    Left = 272
+    Top = 432
+  end
+  object ActionList1: TActionList
+    Left = 440
+    Top = 376
+    object actProgressBarProgress: TAction
+      Caption = 'actProgressBarProgress'
+      OnExecute = actProgressBarProgressExecute
+    end
   end
 end

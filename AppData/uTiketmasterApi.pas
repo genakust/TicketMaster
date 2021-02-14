@@ -9,6 +9,10 @@ interface
   https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey={apikey}
 *)
 type
+  ///<summary>Events are available from the following countries:
+  /// </summary>
+  TSupportedCountries  = (US, CA, IE, GB, AU, NZ, MX, AT, BE, DE, DK, ES, FI, NL, NO, PL, SE, CH, CZ, IT, FR);
+
   TTiletmasterApi = class
   private const
     FBaseUrl: string = 'https://app.ticketmaster.com/discovery/v2/events.json?';

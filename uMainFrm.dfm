@@ -254,14 +254,15 @@ object Form1: TForm1
       Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = []
-      ItemIndex = 0
       ParentFont = False
       TabOrder = 0
       Text = 'US'
       Items.Strings = (
         'US'
         'CA'
-        'GER')
+        'DE'
+        'AU'
+        'NL')
     end
   end
   object RESTClient: TRESTClient

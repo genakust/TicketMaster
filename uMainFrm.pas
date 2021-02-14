@@ -7,8 +7,8 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
-  uController, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls,
-  System.Threading;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
+  uResourceStrings, uController;
 
 type
   TForm1 = class(TForm)
@@ -66,7 +66,7 @@ var
   newTask: ITask;
 begin
   FErrorText := EmptyStr;
-  ShowActivityPanel('Loading');
+  ShowActivityPanel(rsIsBusy);
   newTask := TTask.Create(
     procedure
     begin
@@ -86,7 +86,7 @@ begin
       except
         on E: Exception do
         begin
-          FErrorText := 'Error: ' + RESTResponse.ErrorMessage + ' Error: ' +
+          FErrorText := rsError + RESTResponse.ErrorMessage + ' ' + rsError +
             E.Message;
         end;
       end;
@@ -95,7 +95,6 @@ begin
           procedure
           begin
             HideActivityPanel;
-
           end );
     end);
   newTask.Start;

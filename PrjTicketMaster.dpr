@@ -6,7 +6,8 @@ uses
   uDM in 'DM\uDM.pas' {DataModule1: TDataModule},
   uAppData in 'AppData\uAppData.pas',
   uTiketmasterApi in 'AppData\uTiketmasterApi.pas',
-  uController in 'Controller\uController.pas';
+  uController in 'Controller\uController.pas',
+  uResourceStrings in 'AppData\uResourceStrings.pas';
 
 {$R *.res}
 

@@ -299,14 +299,13 @@ object Form1: TForm1
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -19
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
       TabOrder = 0
       Text = 'disco'
-      ExplicitLeft = 43
-      ExplicitTop = -3
+      ExplicitHeight = 31
     end
   end
   object Memo1: TMemo
@@ -330,18 +329,18 @@ object Form1: TForm1
       Left = 1
       Top = 1
       Width = 215
-      Height = 23
+      Height = 24
       Align = alTop
       Alignment = taCenter
       Caption = 'Loading'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindow
-      Font.Height = -19
+      Font.Height = -20
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitWidth = 66
+      ExplicitWidth = 70
     end
     object ProgressBar: TProgressBar
       Left = 40
@@ -359,10 +358,12 @@ object Form1: TForm1
     Width = 532
     Height = 30
     Align = alTop
+    Color = clGradientInactiveCaption
+    ParentBackground = False
     TabOrder = 3
     ExplicitLeft = 1
     object labCountry: TLabel
-      Left = 161
+      Left = 187
       Top = 1
       Width = 88
       Height = 28
@@ -376,11 +377,12 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
+      ExplicitLeft = 161
     end
     object Label1: TLabel
       Left = 1
       Top = 1
-      Width = 62
+      Width = 88
       Height = 28
       Align = alLeft
       Alignment = taCenter
@@ -392,12 +394,11 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitTop = 2
     end
     object cbPlatform: TComboBox
-      Left = 249
+      Left = 275
       Top = 1
-      Width = 98
+      Width = 150
       Height = 24
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
@@ -414,11 +415,9 @@ object Form1: TForm1
         'Universe'
         'FrontGate Tickets'
         'Ticketmaster Resale')
-      ExplicitLeft = 255
-      ExplicitTop = 5
     end
     object cbCountry: TComboBox
-      Left = 63
+      Left = 89
       Top = 1
       Width = 98
       Height = 24
@@ -437,7 +436,18 @@ object Form1: TForm1
         'DE'
         'AU'
         'NL')
+      ExplicitLeft = 95
+      ExplicitTop = 5
     end
+  end
+  object Panel1: TPanel
+    Left = 339
+    Top = 424
+    Width = 185
+    Height = 62
+    Color = clMoneyGreen
+    ParentBackground = False
+    TabOrder = 4
   end
   object RESTClient: TRESTClient
     Accept = 'application/json'

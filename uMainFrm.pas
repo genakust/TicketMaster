@@ -31,6 +31,7 @@ type
     Label1: TLabel;
     cbCountry: TComboBox;
     btnSettings: TSpeedButton;
+    Panel1: TPanel;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);

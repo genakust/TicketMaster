@@ -27,7 +27,10 @@ type
     actProgressBarProgress: TAction;
     panDefaults: TPanel;
     labCountry: TLabel;
-    cbCountries: TComboBox;
+    cbPlatform: TComboBox;
+    Label1: TLabel;
+    cbCountry: TComboBox;
+    btnSettings: TSpeedButton;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -85,8 +88,18 @@ var
   newTask: ITask;
 begin
   // URL.
-  RESTClient.BaseURL := FController.GetBaseURL +
-    'classificationName=music&dmaId=324&apikey=' + FController.Token;
+  (* https://app.ticketmaster.com/discovery/v2/events.json?
+    keyword=disco&
+    source=Ticketmaster&
+    countryCode=US&
+    apikey={} *)
+
+  RESTClient.BaseURL :=
+    FController.BaseURL +
+    FController.KeyWord + edSearchWord.Text + FController.AndChar +
+    FController.Source + cbPlatform.Items[cbPlatform.ItemIndex] + FController.AndChar +
+    FController.CountryCode + cbCountry.Items[cbCountry.ItemIndex] + FController.AndChar +
+    FController.ApiKey + FController.Token;
 
   FErrorText := EmptyStr;
   // Show panel for busy state.
@@ -130,7 +143,7 @@ end;
 {$REGION '< Actionslist >'}
 procedure TForm1.actProgressBarProgressExecute(Sender: TObject);
 const
-  kPROGRESS: integer = 5;
+  kPROGRESS: integer = 10;
 begin
   if ProgressBar.Position < ProgressBar.Max then
     ProgressBar.Position:= ProgressBar.Position + kPROGRESS

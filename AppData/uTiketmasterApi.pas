@@ -24,12 +24,14 @@ type
     FAnd: string = '&';
     FCountryCode: string = 'countryCode=';
     FKeyword:string = 'keyword=';
+    FSource: string = 'source=';
   private
     function GetBaseURL: string;
     function GetApiKey: string;
     function GetAnd: string;
     function GetCountryCode: string;
     function GetKeyword: string;
+    function GetSource: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -42,6 +44,7 @@ type
     property AndChar: string read GetAnd;
     property CountryCode : string read GetCountryCode;
     property Keyword : string read GetKeyword;
+    property Source : string read GetSource;
   end;
 
 implementation
@@ -86,6 +89,11 @@ end;
 function TTiletmasterApi.GetKeyword: string;
 begin
   Result:= FKeyword;
+end;
+
+function TTiletmasterApi.GetSource: string;
+begin
+  Result:= FSource;;
 end;
 
 {$ENDREGION}

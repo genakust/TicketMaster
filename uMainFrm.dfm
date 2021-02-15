@@ -304,10 +304,9 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Text = 'put the search word'
-      ExplicitLeft = 1
-      ExplicitWidth = 471
-      ExplicitHeight = 24
+      Text = 'disco'
+      ExplicitLeft = 43
+      ExplicitTop = -3
     end
   end
   object Memo1: TMemo

@@ -70,15 +70,50 @@ end;
 
 {$ENDREGION}
 {$REGION '< Get data from request >'}
+
 procedure TForm1.GetListBySuccess;
 var
-  Value: TJSONValue;
+  jsonResponse, embedded,
+  item : TJSONObject;
+  events: TJSONArray;
+  eventName: string;
+  i: integer;
 begin
-  Value := TJSONObject.ParseJSONValue( RESTResponse.Content );
+  jsonResponse := TJSONObject.ParseJSONValue(RESTResponse.Content)
+    as TJSONObject;
   try
+    if Assigned(jsonResponse) then
+    begin
+      // JSON Object.
+      embedded := (jsonResponse.GetValue('_embedded') as TJSONObject);
+      if Assigned(embedded) then
+      begin
+        //  Events list.
+        events := (embedded.GetValue('events') as TJSONArray);
+        if Assigned(events) then
+        begin
+          for i:= 0 to events.Count-1 do
+          begin
+            // One event.
+            item:= events.Items[i] as TJSONObject;
+            // Get properties.
+            eventName := (item.GetValue('name') as TJSONString).ToString;
+          end;
+        end
+        else
+        begin
+          // Error case
 
+        end;
+      end
+      else
+      begin
+        // Error case
+
+      end;
+    end;
   finally
-
+    jsonResponse.DisposeOf;
   end;
 end;
 
@@ -94,12 +129,11 @@ begin
     countryCode=US&
     apikey={} *)
 
-  RESTClient.BaseURL :=
-    FController.BaseURL +
-    FController.KeyWord + edSearchWord.Text + FController.AndChar +
-    FController.Source + cbPlatform.Items[cbPlatform.ItemIndex] + FController.AndChar +
-    FController.CountryCode + cbCountry.Items[cbCountry.ItemIndex] + FController.AndChar +
-    FController.ApiKey + FController.Token;
+  RESTClient.BaseURL := FController.BaseURL + FController.KeyWord +
+    edSearchWord.Text + FController.AndChar + FController.Source +
+    cbPlatform.Items[cbPlatform.ItemIndex] + FController.AndChar +
+    FController.CountryCode + cbCountry.Items[cbCountry.ItemIndex] +
+    FController.AndChar + FController.ApiKey + FController.Token;
 
   FErrorText := EmptyStr;
   // Show panel for busy state.
@@ -113,8 +147,10 @@ begin
         if (RESTResponse.StatusCode = 200) then
         begin
           // Request successful.
-          jValue := RESTResponse.JSONValue;
+          jValue := RESTResponse.JsonValue;
           Memo1.Text := jValue.ToString;
+          // Test JSON.
+          GetListBySuccess;
         end
         else
         begin
@@ -129,30 +165,30 @@ begin
         end;
       end;
 
-      TThread.Synchronize( nil,
-          procedure
-          begin
-            HideActivityPanel;
-          end );
+      TThread.Synchronize(nil,
+        procedure
+        begin
+          HideActivityPanel;
+        end);
     end);
   newTask.Start;
 
 end;
 {$ENDREGION}
-
 {$REGION '< Actionslist >'}
+
 procedure TForm1.actProgressBarProgressExecute(Sender: TObject);
 const
-  kPROGRESS: integer = 10;
+  kPROGRESS: Integer = 10;
 begin
   if ProgressBar.Position < ProgressBar.Max then
-    ProgressBar.Position:= ProgressBar.Position + kPROGRESS
+    ProgressBar.Position := ProgressBar.Position + kPROGRESS
   else
-    ProgressBar.Position:= ProgressBar.Min;
+    ProgressBar.Position := ProgressBar.Min;
 end;
 {$ENDREGION}
-
 {$REGION '< Timer >'}
+
 procedure TForm1.tmrProgressTimer(Sender: TObject);
 begin
   // Progress bar
@@ -167,15 +203,15 @@ begin
   labMessageText.Caption := MessageText;
   panActivityPanel.Visible := True;
   // start progress bar
-  tmrProgress.Enabled:= true;
+  tmrProgress.Enabled := True;
 end;
 
 procedure TForm1.HideActivityPanel;
 begin
   panActivityPanel.Visible := False;
   // stop and reset progress bar
-  tmrProgress.Enabled:= false;
-  ProgressBar.Position:= ProgressBar.Min;
+  tmrProgress.Enabled := False;
+  ProgressBar.Position := ProgressBar.Min;
 end;
 
 {$ENDREGION}

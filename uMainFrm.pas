@@ -73,10 +73,11 @@ end;
 
 procedure TForm1.GetListBySuccess;
 var
-  jsonResponse, embedded,
-  item : TJSONObject;
+  jsonResponse, embeddedObj, item,
+  datesObj, startArr: TJSONObject;
   events: TJSONArray;
-  eventName: string;
+  eventName, eventUrl, localTime,
+  localDate: string;
   i: integer;
 begin
   jsonResponse := TJSONObject.ParseJSONValue(RESTResponse.Content)
@@ -85,19 +86,34 @@ begin
     if Assigned(jsonResponse) then
     begin
       // JSON Object.
-      embedded := (jsonResponse.GetValue('_embedded') as TJSONObject);
-      if Assigned(embedded) then
+      embeddedObj := (jsonResponse.GetValue('_embedded') as TJSONObject);
+      if Assigned(embeddedObj) then
       begin
-        //  Events list.
-        events := (embedded.GetValue('events') as TJSONArray);
+        // Events list.
+        events := (embeddedObj.GetValue('events') as TJSONArray);
         if Assigned(events) then
         begin
-          for i:= 0 to events.Count-1 do
+          for i := 0 to events.Count - 1 do
           begin
             // One event.
-            item:= events.Items[i] as TJSONObject;
-            // Get properties.
-            eventName := (item.GetValue('name') as TJSONString).ToString;
+            item := events.Items[i] as TJSONObject;
+            if Assigned(item) then
+            begin
+              // Get properties.
+              eventName := (item.GetValue('name') as TJSONString).ToString;
+              eventUrl := (item.GetValue('url') as TJSONString).ToString;
+
+              datesObj := (item.GetValue('dates') as TJSONObject);
+              if Assigned(datesObj) then
+              begin
+                startArr := (datesObj.GetValue('start') as TJSONObject);
+                if Assigned(startArr) then
+                begin
+                  localDate:= (startArr.GetValue('localDate') as TJSONString).ToString;
+                  localTime:= (startArr.GetValue('localTime') as TJSONString).ToString;
+                end;
+              end;
+            end;
           end;
         end
         else
@@ -179,7 +195,7 @@ end;
 
 procedure TForm1.actProgressBarProgressExecute(Sender: TObject);
 const
-  kPROGRESS: Integer = 10;
+  kPROGRESS: integer = 10;
 begin
   if ProgressBar.Position < ProgressBar.Max then
     ProgressBar.Position := ProgressBar.Position + kPROGRESS

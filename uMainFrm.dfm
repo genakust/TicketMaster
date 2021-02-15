@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Ticketmaster'
   ClientHeight = 486
   ClientWidth = 532
   Color = clBtnFace
@@ -318,10 +318,12 @@ object Form1: TForm1
     TabOrder = 1
   end
   object panActivityPanel: TPanel
-    Left = 135
+    Left = 130
     Top = 296
     Width = 217
     Height = 97
+    Color = clAppWorkSpace
+    ParentBackground = False
     TabOrder = 2
     Visible = False
     object labMessageText: TLabel
@@ -333,7 +335,7 @@ object Form1: TForm1
       Alignment = taCenter
       Caption = 'Loading'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clWindow
       Font.Height = -19
       Font.Name = 'Tahoma'
       Font.Style = []

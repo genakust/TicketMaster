@@ -7,7 +7,8 @@ uses
   uAppData in 'AppData\uAppData.pas',
   uTiketmasterApi in 'AppData\uTiketmasterApi.pas',
   uController in 'Controller\uController.pas',
-  uResourceStrings in 'AppData\uResourceStrings.pas';
+  uResourceStrings in 'AppData\uResourceStrings.pas',
+  uModel in 'uModel.pas';
 
 {$R *.res}
 

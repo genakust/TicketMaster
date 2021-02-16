@@ -99,7 +99,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="uMainFrm.pas">
-            <Form>Form1</Form>
+            <Form>frmTicketmaster</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="DM\uDM.pas">

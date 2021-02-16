@@ -11,7 +11,7 @@ uses
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList;
 
 type
-  TForm1 = class(TForm)
+  TfrmTicketmaster = class(TForm)
     RESTClient: TRESTClient;
     RESTRequest: TRESTRequest;
     RESTResponse: TRESTResponse;
@@ -30,7 +30,8 @@ type
     Label1: TLabel;
     cbCountry: TComboBox;
     btnSettings: TSpeedButton;
-    Panel1: TPanel;
+    panListView: TPanel;
+    lvEventsList: TListView;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -42,12 +43,13 @@ type
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
     procedure GetListBySuccess(aJSONContent: string);
+    procedure ListViewCreateColumn;
   public
     { Public-Deklarationen }
   end;
 
 var
-  Form1: TForm1;
+  frmTicketmaster: TfrmTicketmaster;
 
 implementation
 
@@ -57,21 +59,23 @@ uses
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
 
-procedure TForm1.FormDestroy(Sender: TObject);
+procedure TfrmTicketmaster.FormDestroy(Sender: TObject);
 begin
   FController.Free;
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TfrmTicketmaster.FormShow(Sender: TObject);
 begin
   // Is here because DM- module should be created first.
   FController := TController.Create;
+
+  ListViewCreateColumn;
 end;
 
 {$ENDREGION}
 {$REGION '< Get data from request >'}
 
-procedure TForm1.GetListBySuccess(aJSONContent: string);
+procedure TfrmTicketmaster.GetListBySuccess(aJSONContent: string);
 var
   jsonResponse, embeddedObj, item, datesObj, startArr: TJSONObject;
   events: TJSONArray;
@@ -132,7 +136,7 @@ begin
   end;
 end;
 
-procedure TForm1.btnSearchClick(Sender: TObject);
+procedure TfrmTicketmaster.btnSearchClick(Sender: TObject);
 var
   newTask: ITask;
 begin
@@ -179,7 +183,7 @@ end;
 {$ENDREGION}
 {$REGION '< Actionslist >'}
 
-procedure TForm1.actProgressBarProgressExecute(Sender: TObject);
+procedure TfrmTicketmaster.actProgressBarProgressExecute(Sender: TObject);
 const
   kPROGRESS: integer = 10;
 begin
@@ -191,7 +195,7 @@ end;
 {$ENDREGION}
 {$REGION '< Timer >'}
 
-procedure TForm1.tmrProgressTimer(Sender: TObject);
+procedure TfrmTicketmaster.tmrProgressTimer(Sender: TObject);
 begin
   // Progress bar
   actProgressBarProgressExecute(nil);
@@ -199,7 +203,7 @@ end;
 {$ENDREGION}
 {$REGION '< Activity panel >'}
 
-procedure TForm1.ShowActivityPanel(const MessageText: string);
+procedure TfrmTicketmaster.ShowActivityPanel(const MessageText: string);
 begin
   panActivityPanel.Alignment := TAlignment.taCenter;
   labMessageText.Caption := MessageText;
@@ -208,7 +212,7 @@ begin
   tmrProgress.Enabled := True;
 end;
 
-procedure TForm1.HideActivityPanel;
+procedure TfrmTicketmaster.HideActivityPanel;
 begin
   panActivityPanel.Visible := False;
   // stop and reset progress bar
@@ -216,6 +220,33 @@ begin
   ProgressBar.Position := ProgressBar.Min;
 end;
 
+{$ENDREGION}
+{$REGION '< ListView >'}
+
+procedure TfrmTicketmaster.ListViewCreateColumn;
+var
+  newCol: TListColumn;
+begin
+  newCol := lvEventsList.Columns.Add;
+  newCol.Caption := 'Event Name';
+  newCol.Alignment := taLeftJustify;
+  newCol.Width := 100;
+
+  newCol := lvEventsList.Columns.Add;
+  newCol.Caption := 'Event Url';
+  newCol.Alignment := taLeftJustify;
+  newCol.Width := 140;
+
+  newCol := lvEventsList.Columns.Add;
+  newCol.Caption := 'Local Time';
+  newCol.Alignment := taLeftJustify;
+  newCol.Width := 140;
+
+  newCol := lvEventsList.Columns.Add;
+  newCol.Caption := 'Local Date';
+  newCol.Alignment := taLeftJustify;
+  newCol.Width := 140;
+end;
 {$ENDREGION}
 
 initialization

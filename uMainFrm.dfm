@@ -1,9 +1,9 @@
-object Form1: TForm1
+object frmTicketmaster: TfrmTicketmaster
   Left = 0
   Top = 0
   Caption = 'Ticketmaster'
-  ClientHeight = 486
-  ClientWidth = 532
+  ClientHeight = 509
+  ClientWidth = 513
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,12 +18,13 @@ object Form1: TForm1
   object panSearch: TPanel
     Left = 0
     Top = 0
-    Width = 532
+    Width = 513
     Height = 30
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 532
     object btnSearch: TSpeedButton
-      Left = 472
+      Left = 453
       Top = 1
       Width = 59
       Height = 28
@@ -294,7 +295,7 @@ object Form1: TForm1
     object edSearchWord: TEdit
       Left = 49
       Top = 1
-      Width = 423
+      Width = 404
       Height = 28
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -305,54 +306,20 @@ object Form1: TForm1
       ParentFont = False
       TabOrder = 0
       Text = 'disco'
+      ExplicitWidth = 423
       ExplicitHeight = 31
-    end
-  end
-  object panActivityPanel: TPanel
-    Left = 130
-    Top = 296
-    Width = 217
-    Height = 97
-    Color = clAppWorkSpace
-    ParentBackground = False
-    TabOrder = 1
-    Visible = False
-    object labMessageText: TLabel
-      Left = 1
-      Top = 1
-      Width = 215
-      Height = 24
-      Align = alTop
-      Alignment = taCenter
-      Caption = 'Loading'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindow
-      Font.Height = -20
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Layout = tlCenter
-      ExplicitWidth = 70
-    end
-    object ProgressBar: TProgressBar
-      Left = 40
-      Top = 48
-      Width = 150
-      Height = 17
-      Align = alCustom
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      TabOrder = 0
     end
   end
   object panDefaults: TPanel
     Left = 0
     Top = 30
-    Width = 532
+    Width = 513
     Height = 30
     Align = alTop
     Color = clGradientInactiveCaption
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 1
+    ExplicitWidth = 532
     object labCountry: TLabel
       Left = 161
       Top = 1
@@ -409,7 +376,6 @@ object Form1: TForm1
         'FrontGate Tickets'
         'Ticketmaster Resale')
       ExplicitLeft = 233
-      ExplicitTop = 5
     end
     object cbCountry: TComboBox
       Left = 63
@@ -433,14 +399,68 @@ object Form1: TForm1
         'NL')
     end
   end
-  object Panel1: TPanel
-    Left = 339
-    Top = 424
-    Width = 185
-    Height = 62
+  object panListView: TPanel
+    Left = 0
+    Top = 60
+    Width = 513
+    Height = 449
+    Align = alClient
     Color = clMoneyGreen
     ParentBackground = False
+    TabOrder = 2
+    ExplicitLeft = 339
+    ExplicitTop = 424
+    ExplicitWidth = 185
+    ExplicitHeight = 62
+    object lvEventsList: TListView
+      Left = 1
+      Top = 1
+      Width = 511
+      Height = 447
+      Align = alClient
+      Columns = <>
+      TabOrder = 0
+      ViewStyle = vsReport
+      ExplicitLeft = 0
+    end
+  end
+  object panActivityPanel: TPanel
+    Left = 130
+    Top = 296
+    Width = 217
+    Height = 97
+    Color = clAppWorkSpace
+    ParentBackground = False
     TabOrder = 3
+    Visible = False
+    object labMessageText: TLabel
+      Left = 1
+      Top = 1
+      Width = 215
+      Height = 24
+      Align = alTop
+      Alignment = taCenter
+      Caption = 'Loading'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -20
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Layout = tlCenter
+      ExplicitLeft = 0
+    end
+    object ProgressBar: TProgressBar
+      Left = 40
+      Top = 48
+      Width = 150
+      Height = 17
+      Align = alCustom
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      Min = 8
+      Position = 8
+      TabOrder = 0
+    end
   end
   object RESTClient: TRESTClient
     Accept = 'application/json'

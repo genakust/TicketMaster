@@ -7,7 +7,6 @@ uses
 
 type
 
-
   TApiKeyWords = record
 
   end;
@@ -17,24 +16,11 @@ type
     FApiStrings: TTiletmasterApi;
     FTokenObj: IAppData;
     FToken: string;
-    function GetToken: string;
-    function GetBaseURL: string;
-    function GetKeyWord: string;
-    function GetAnd: string;
-    function GetSource: string;
-    function GetCountryCode: string;
-    function GetApiKey: string;
   public
     constructor Create;
     destructor Destroy; override;
-    (*Properties*)
-    property KeyWord: string read GetKeyWord;
-    property BaseURL: string read GetBaseURL;
-    property Token : string read GetToken;
-    property AndChar: string read GetAnd ;
-    property Source: string read GetSource ;
-    property CountryCode: string read GetCountryCode ;
-    property ApiKey: string read GetApiKey;
+    function GetJSONRequestForSearch(const aSearchWord, aPlatform,
+      aCountryCode: string): string;
   end;
 
 implementation
@@ -46,7 +32,7 @@ constructor TController.Create;
 begin
   inherited;
 
-  FApiStrings:= TTiletmasterApi.Create;
+  FApiStrings := TTiletmasterApi.Create;
   FTokenObj := TAppData.GetInstance;
   FToken := FTokenObj.Token;
 end;
@@ -58,42 +44,13 @@ begin
   inherited;
 end;
 
+function TController.GetJSONRequestForSearch(const aSearchWord, aPlatform,
+  aCountryCode: string): string;
+begin
+  Result := FApiStrings.GetJSONRequestForSearch(aSearchWord, aPlatform,
+    aCountryCode, FToken);
+end;
+
 {$ENDREGION}
 
-{$REGION '< Properties >'}
-function TController.GetAnd: string;
-begin
-  Result:= FApiStrings.AndChar;
-end;
-
-function TController.GetApiKey: string;
-begin
-  Result:= FApiStrings.ApiKey;
-end;
-
-function TController.GetBaseURL: string;
-begin
-  Result:= FApiStrings.BaseUrl;
-end;
-
-function TController.GetCountryCode: string;
-begin
-  Result:= FApiStrings.CountryCode;
-end;
-
-function TController.GetKeyWord: string;
-begin
-  Result:= FApiStrings.Keyword;
-end;
-
-function TController.GetSource: string;
-begin
-  Result:= FApiStrings.Source;
-end;
-
-function TController.GetToken: string;
-begin
-  Result:= FToken;
-end;
-{$ENDREGION}
 end.

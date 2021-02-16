@@ -308,14 +308,6 @@ object Form1: TForm1
       ExplicitHeight = 31
     end
   end
-  object Memo1: TMemo
-    Left = 8
-    Top = 66
-    Width = 516
-    Height = 263
-    ScrollBars = ssBoth
-    TabOrder = 1
-  end
   object panActivityPanel: TPanel
     Left = 130
     Top = 296
@@ -323,7 +315,7 @@ object Form1: TForm1
     Height = 97
     Color = clAppWorkSpace
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 1
     Visible = False
     object labMessageText: TLabel
       Left = 1
@@ -360,12 +352,11 @@ object Form1: TForm1
     Align = alTop
     Color = clGradientInactiveCaption
     ParentBackground = False
-    TabOrder = 3
-    ExplicitLeft = 1
+    TabOrder = 2
     object labCountry: TLabel
-      Left = 187
+      Left = 161
       Top = 1
-      Width = 88
+      Width = 66
       Height = 28
       Align = alLeft
       Alignment = taCenter
@@ -377,12 +368,13 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitLeft = 161
+      ExplicitLeft = 187
+      ExplicitHeight = 19
     end
     object Label1: TLabel
       Left = 1
       Top = 1
-      Width = 88
+      Width = 62
       Height = 28
       Align = alLeft
       Alignment = taCenter
@@ -394,9 +386,10 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
+      ExplicitHeight = 19
     end
     object cbPlatform: TComboBox
-      Left = 275
+      Left = 227
       Top = 1
       Width = 150
       Height = 24
@@ -415,9 +408,11 @@ object Form1: TForm1
         'Universe'
         'FrontGate Tickets'
         'Ticketmaster Resale')
+      ExplicitLeft = 233
+      ExplicitTop = 5
     end
     object cbCountry: TComboBox
-      Left = 89
+      Left = 63
       Top = 1
       Width = 98
       Height = 24
@@ -436,8 +431,6 @@ object Form1: TForm1
         'DE'
         'AU'
         'NL')
-      ExplicitLeft = 95
-      ExplicitTop = 5
     end
   end
   object Panel1: TPanel
@@ -447,7 +440,7 @@ object Form1: TForm1
     Height = 62
     Color = clMoneyGreen
     ParentBackground = False
-    TabOrder = 4
+    TabOrder = 3
   end
   object RESTClient: TRESTClient
     Accept = 'application/json'

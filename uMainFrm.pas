@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
+  System.Classes, Vcl.Graphics, System.generics.Collections,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
@@ -18,7 +18,6 @@ type
     btnSearch: TSpeedButton;
     panSearch: TPanel;
     edSearchWord: TEdit;
-    Memo1: TMemo;
     panActivityPanel: TPanel;
     labMessageText: TLabel;
     ProgressBar: TProgressBar;
@@ -42,7 +41,7 @@ type
     FErrorText: string;
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
-    procedure GetListBySuccess;
+    procedure GetListBySuccess(aJSONContent: string);
   public
     { Public-Deklarationen }
   end;
@@ -72,17 +71,14 @@ end;
 {$ENDREGION}
 {$REGION '< Get data from request >'}
 
-procedure TForm1.GetListBySuccess;
+procedure TForm1.GetListBySuccess(aJSONContent: string);
 var
-  jsonResponse, embeddedObj, item,
-  datesObj, startArr: TJSONObject;
+  jsonResponse, embeddedObj, item, datesObj, startArr: TJSONObject;
   events: TJSONArray;
-  eventName, eventUrl, localTime,
-  localDate: string;
+  eventName, eventUrl, localTime, localDate: string;
   i: integer;
 begin
-  jsonResponse := TJSONObject.ParseJSONValue(RESTResponse.Content)
-    as TJSONObject;
+  jsonResponse := TJSONObject.ParseJSONValue(aJSONContent) as TJSONObject;
   try
     if Assigned(jsonResponse) then
     begin
@@ -110,8 +106,10 @@ begin
                 startArr := (datesObj.GetValue('start') as TJSONObject);
                 if Assigned(startArr) then
                 begin
-                  localDate:= (startArr.GetValue('localDate') as TJSONString).ToString;
-                  localTime:= (startArr.GetValue('localTime') as TJSONString).ToString;
+                  localDate :=
+                    (startArr.GetValue('localDate') as TJSONString).ToString;
+                  localTime :=
+                    (startArr.GetValue('localTime') as TJSONString).ToString;
                 end;
               end;
             end;
@@ -136,21 +134,11 @@ end;
 
 procedure TForm1.btnSearchClick(Sender: TObject);
 var
-  jValue: TJSONValue;
   newTask: ITask;
 begin
-  // URL.
-  (* https://app.ticketmaster.com/discovery/v2/events.json?
-    keyword=disco&
-    source=Ticketmaster&
-    countryCode=US&
-    apikey={} *)
-
-  RESTClient.BaseURL := FController.BaseURL + FController.KeyWord +
-    edSearchWord.Text + FController.AndChar + FController.Source +
-    cbPlatform.Items[cbPlatform.ItemIndex] + FController.AndChar +
-    FController.CountryCode + cbCountry.Items[cbCountry.ItemIndex] +
-    FController.AndChar + FController.ApiKey + FController.Token;
+  RESTClient.BaseURL := FController.GetJSONRequestForSearch(edSearchWord.Text,
+    cbPlatform.Items[cbPlatform.ItemIndex],
+    cbCountry.Items[cbCountry.ItemIndex]);
 
   FErrorText := EmptyStr;
   // Show panel for busy state.
@@ -164,10 +152,7 @@ begin
         if (RESTResponse.StatusCode = 200) then
         begin
           // Request successful.
-          jValue := RESTResponse.JsonValue;
-          Memo1.Text := jValue.ToString;
-          // Test JSON.
-          GetListBySuccess;
+          GetListBySuccess(RESTResponse.Content);
         end
         else
         begin

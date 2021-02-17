@@ -410,8 +410,11 @@ object frmTicketmaster: TfrmTicketmaster
       Height = 447
       Align = alClient
       Columns = <>
+      SortType = stText
       TabOrder = 0
       ViewStyle = vsReport
+      OnColumnClick = lvEventsListColumnClick
+      ExplicitLeft = 2
     end
   end
   object panActivityPanel: TPanel
@@ -447,8 +450,8 @@ object frmTicketmaster: TfrmTicketmaster
       Height = 17
       Align = alCustom
       Anchors = [akLeft, akTop, akRight, akBottom]
-      Min = 8
-      Position = 8
+      Min = 15
+      Position = 15
       TabOrder = 0
     end
   end

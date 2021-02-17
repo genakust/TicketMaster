@@ -37,6 +37,7 @@ type
     procedure btnSearchClick(Sender: TObject);
     procedure tmrProgressTimer(Sender: TObject);
     procedure actProgressBarProgressExecute(Sender: TObject);
+    procedure lvEventsListColumnClick(Sender: TObject; Column: TListColumn);
   private
     FController: TController;
     FErrorText: string;
@@ -54,7 +55,7 @@ var
 implementation
 
 uses
-  uModel, uModelList, uListViewCommand;
+  uModel, uModelList, uListViewCommand, uListViewSort;
 
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
@@ -206,6 +207,16 @@ begin
   newCol.Alignment := taLeftJustify;
   newCol.Width := 140;
 end;
+
+procedure TfrmTicketmaster.lvEventsListColumnClick(Sender: TObject;
+  Column: TListColumn);
+var
+  lvCmd: IListViewCommand;
+begin
+  lvCmd:= TListViewCommand.Create;
+  lvCmd.ColumnSort(lvEventsList, Column);
+end;
+
 {$ENDREGION}
 
 initialization

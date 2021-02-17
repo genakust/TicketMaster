@@ -11,7 +11,8 @@ uses
   uModelList in 'Model\uModelList.pas',
   uModel in 'Model\uModel.pas',
   uJsonUtills in 'JSON\uJsonUtills.pas',
-  uListViewCommand in 'ListView\uListViewCommand.pas';
+  uListViewCommand in 'ListView\uListViewCommand.pas',
+  uListViewSort in 'ListView\uListViewSort.pas';
 
 {$R *.res}
 

@@ -25,6 +25,9 @@ type
     procedure AddItemToList(const aEventName, aEventUrl, aLocalTime,
       aLocalDate: string; aListView: TListView);
     procedure DeleteSelectedItem(aListView: TListView);
+    /// <summary> Function to column sort.
+    /// </summary>
+    procedure ColumnSort(aListView: TListView; aColumn: TListColumn);
   end;
 
   TListViewCommand = class(TInterfacedObject, IListViewCommand)
@@ -50,9 +53,15 @@ type
     procedure AddItemToList(const aEventName, aEventUrl, aLocalTime,
       aLocalDate: string; aListView: TListView);
     procedure DeleteSelectedItem(aListView: TListView);
+    /// <summary> Function to column sort.
+    /// </summary>
+    procedure ColumnSort(aListView: TListView; aColumn: TListColumn);
   end;
 
 implementation
+
+uses
+  uListViewSort;
 
 { TListViewCommand }
 
@@ -70,14 +79,35 @@ begin
       for I := 0 to 2 do
         newItem.SubItems.Add('');
 //      newItem.ImageIndex := aImageIndex;
-      newItem.SubItems[0] := aEventName;
-      newItem.SubItems[1] := aEventUrl;
-      newItem.SubItems[2] := aLocalTime;
+      newItem.Caption:= aEventName;
+      newItem.SubItems[0] := aEventUrl;
+      newItem.SubItems[1] := aLocalTime;
       newItem.SubItems[2] := aLocalDate;
     finally
       aListView.items.EndUpdate;
     end;
   end;
+end;
+
+procedure TListViewCommand.ColumnSort(aListView: TListView; aColumn: TListColumn);
+var
+  colToSort: integer;
+begin
+  if not Assigned(aListView) then
+    Exit;
+  // which colum was clicked?
+  colToSort := aColumn.index;
+  { determine the sort style }
+  if (colToSort = 1) or (colToSort = 2) then
+    LvSortStyle := cssAlphaNum
+  else
+    LvSortStyle := cssNumeric;
+
+  { Call the CustomSort method }
+  aListView.CustomSort(@CustomSortProc, aColumn.index - 1);
+
+  { Set the sort order for the column }
+  LvSortOrder[aColumn.index] := not LvSortOrder[aColumn.index];
 end;
 
 constructor TListViewCommand.Create;

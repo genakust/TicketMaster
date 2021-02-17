@@ -291,21 +291,29 @@ object frmTicketmaster: TfrmTicketmaster
       ExplicitLeft = 9
       ExplicitTop = -3
     end
-    object edSearchWord: TEdit
+    object cbSearchWord: TComboBox
       Left = 49
       Top = 1
       Width = 404
-      Height = 28
+      Height = 29
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -19
+      Font.Height = -17
       Font.Name = 'Tahoma'
       Font.Style = []
+      ItemIndex = 0
       ParentFont = False
       TabOrder = 0
-      Text = 'disco'
-      ExplicitHeight = 31
+      Text = 'Disco'
+      OnKeyUp = cbSearchWordKeyUp
+      Items.Strings = (
+        'Disco'
+        'Adele'
+        'Pop'
+        'Rock')
+      ExplicitLeft = 55
+      ExplicitTop = -4
     end
   end
   object panDefaults: TPanel
@@ -355,11 +363,11 @@ object frmTicketmaster: TfrmTicketmaster
       Left = 227
       Top = 1
       Width = 150
-      Height = 24
+      Height = 27
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -16
       Font.Name = 'Tahoma'
       Font.Style = []
       ItemIndex = 0
@@ -376,11 +384,11 @@ object frmTicketmaster: TfrmTicketmaster
       Left = 63
       Top = 1
       Width = 98
-      Height = 24
+      Height = 27
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -16
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
@@ -407,7 +415,7 @@ object frmTicketmaster: TfrmTicketmaster
       Left = 1
       Top = 1
       Width = 511
-      Height = 447
+      Height = 428
       Align = alClient
       Columns = <>
       SortType = stText
@@ -415,6 +423,21 @@ object frmTicketmaster: TfrmTicketmaster
       ViewStyle = vsReport
       OnColumnClick = lvEventsListColumnClick
       ExplicitLeft = 2
+      ExplicitHeight = 447
+    end
+    object StatusBar1: TStatusBar
+      Left = 1
+      Top = 429
+      Width = 511
+      Height = 19
+      Panels = <
+        item
+          Text = 'Status: '
+          Width = 50
+        end>
+      ExplicitLeft = 448
+      ExplicitTop = 424
+      ExplicitWidth = 0
     end
   end
   object panActivityPanel: TPanel
@@ -485,6 +508,10 @@ object frmTicketmaster: TfrmTicketmaster
     object actProgressBarProgress: TAction
       Caption = 'actProgressBarProgress'
       OnExecute = actProgressBarProgressExecute
+    end
+    object actAddSearchWordsToList: TAction
+      Caption = 'actAddSearchWordsToList'
+      OnExecute = actAddSearchWordsToListExecute
     end
   end
 end

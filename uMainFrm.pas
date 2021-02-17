@@ -17,7 +17,6 @@ type
     RESTResponse: TRESTResponse;
     btnSearch: TSpeedButton;
     panSearch: TPanel;
-    edSearchWord: TEdit;
     panActivityPanel: TPanel;
     labMessageText: TLabel;
     ProgressBar: TProgressBar;
@@ -32,12 +31,18 @@ type
     btnSettings: TSpeedButton;
     panListView: TPanel;
     lvEventsList: TListView;
+    cbSearchWord: TComboBox;
+    actAddSearchWordsToList: TAction;
+    StatusBar1: TStatusBar;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure tmrProgressTimer(Sender: TObject);
     procedure actProgressBarProgressExecute(Sender: TObject);
     procedure lvEventsListColumnClick(Sender: TObject; Column: TListColumn);
+    procedure actAddSearchWordsToListExecute(Sender: TObject);
+    procedure cbSearchWordKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     FController: TController;
     FErrorText: string;
@@ -84,12 +89,12 @@ var
 begin
   eventList := TModelList<TModel>.Create;
   try
-    listViewCmd:= TListViewCommand.Create;
+    listViewCmd := TListViewCommand.Create;
     FController.FillEventListBySuccess(RESTResponse.Content, eventList);
     for item in eventList.ItemsList do
     begin
-      listViewCmd.AddItemToList(item.EventName, item.EventUrl,
-        item.LocalTime, item.LocalDate, lvEventsList);
+      listViewCmd.AddItemToList(item.EventName, item.EventUrl, item.LocalTime,
+        item.LocalDate, lvEventsList);
     end;
   finally
     eventList.Free;
@@ -100,11 +105,14 @@ procedure TfrmTicketmaster.btnSearchClick(Sender: TObject);
 var
   newTask: ITask;
 begin
-  RESTClient.BaseURL := FController.GetJSONRequestForSearch(edSearchWord.Text,
+  RESTClient.BaseURL := FController.GetJSONRequestForSearch
+    (cbSearchWord.Items[cbPlatform.ItemIndex],
     cbPlatform.Items[cbPlatform.ItemIndex],
     cbCountry.Items[cbCountry.ItemIndex]);
 
   FErrorText := EmptyStr;
+  lvEventsList.Clear;
+
   // Show panel for busy state.
   ShowActivityPanel(rsIsBusy);
   // Try to get a request.
@@ -140,8 +148,22 @@ begin
   newTask.Start;
 
 end;
+
 {$ENDREGION}
 {$REGION '< Actionslist >'}
+
+procedure TfrmTicketmaster.actAddSearchWordsToListExecute(Sender: TObject);
+var
+  text: string;
+begin
+  cbSearchWord.Items.BeginUpdate;
+  try
+    text:=cbSearchWord.Items[cbPlatform.ItemIndex];
+    cbSearchWord.Items.Add(text);
+  finally
+    cbSearchWord.Items.EndUpdate;
+  end;
+end;
 
 procedure TfrmTicketmaster.actProgressBarProgressExecute(Sender: TObject);
 const
@@ -209,12 +231,24 @@ begin
 end;
 
 procedure TfrmTicketmaster.lvEventsListColumnClick(Sender: TObject;
-  Column: TListColumn);
+Column: TListColumn);
 var
   lvCmd: IListViewCommand;
 begin
-  lvCmd:= TListViewCommand.Create;
+  lvCmd := TListViewCommand.Create;
   lvCmd.ColumnSort(lvEventsList, Column);
+end;
+
+{$ENDREGION}
+{$REGION '< ComboBox SearchWord >'}
+
+procedure TfrmTicketmaster.cbSearchWordKeyUp(Sender: TObject; var Key: Word;
+Shift: TShiftState);
+begin
+  if ord(Key) = VK_RETURN then
+  begin
+    actAddSearchWordsToListExecute(nil);
+  end;
 end;
 
 {$ENDREGION}

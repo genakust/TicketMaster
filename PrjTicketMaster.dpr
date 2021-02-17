@@ -8,7 +8,10 @@ uses
   uTiketmasterApi in 'AppData\uTiketmasterApi.pas',
   uController in 'Controller\uController.pas',
   uResourceStrings in 'AppData\uResourceStrings.pas',
-  uModel in 'uModel.pas';
+  uModelList in 'Model\uModelList.pas',
+  uModel in 'Model\uModel.pas',
+  uJsonUtills in 'JSON\uJsonUtills.pas',
+  uListViewCommand in 'ListView\uListViewCommand.pas';
 
 {$R *.res}
 

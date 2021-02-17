@@ -22,7 +22,6 @@ object frmTicketmaster: TfrmTicketmaster
     Height = 30
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 532
     object btnSearch: TSpeedButton
       Left = 453
       Top = 1
@@ -306,7 +305,6 @@ object frmTicketmaster: TfrmTicketmaster
       ParentFont = False
       TabOrder = 0
       Text = 'disco'
-      ExplicitWidth = 423
       ExplicitHeight = 31
     end
   end
@@ -319,7 +317,6 @@ object frmTicketmaster: TfrmTicketmaster
     Color = clGradientInactiveCaption
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 532
     object labCountry: TLabel
       Left = 161
       Top = 1
@@ -335,7 +332,6 @@ object frmTicketmaster: TfrmTicketmaster
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitLeft = 187
       ExplicitHeight = 19
     end
     object Label1: TLabel
@@ -375,7 +371,6 @@ object frmTicketmaster: TfrmTicketmaster
         'Universe'
         'FrontGate Tickets'
         'Ticketmaster Resale')
-      ExplicitLeft = 233
     end
     object cbCountry: TComboBox
       Left = 63
@@ -408,10 +403,6 @@ object frmTicketmaster: TfrmTicketmaster
     Color = clMoneyGreen
     ParentBackground = False
     TabOrder = 2
-    ExplicitLeft = 339
-    ExplicitTop = 424
-    ExplicitWidth = 185
-    ExplicitHeight = 62
     object lvEventsList: TListView
       Left = 1
       Top = 1
@@ -421,7 +412,6 @@ object frmTicketmaster: TfrmTicketmaster
       Columns = <>
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 0
     end
   end
   object panActivityPanel: TPanel
@@ -448,7 +438,7 @@ object frmTicketmaster: TfrmTicketmaster
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitLeft = 0
+      ExplicitWidth = 70
     end
     object ProgressBar: TProgressBar
       Left = 40

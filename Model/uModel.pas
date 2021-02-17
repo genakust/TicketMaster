@@ -2,9 +2,6 @@ unit uModel;
 
 interface
 
-uses
-  System.Generics.Collections;
-
 type
   IModel = interface
     ['{ECAC6E3F-6A02-4A52-8B55-C47A2DDE960B}']
@@ -38,6 +35,16 @@ type
     procedure SetLocalTime(const Value: string);
   public
     constructor Create; overload;
+    ///<summary>Set variable values
+    /// </summary>
+    /// <param name="aEventName">Event name.
+    /// </param>
+    /// <param name="aEventUrl">Url from event.
+    /// </param>
+    /// <param name="aLocalTime">Start time (lokal).
+    /// </param>
+    /// <param name="aLocalDate">Start date (lokal).
+    /// </param>
     constructor Create(const aEventName, aEventUrl, aLocalTime,
       aLocalDate: string); overload;
     destructor Destroy; override;
@@ -48,17 +55,6 @@ type
     property LocalDate: string read GetLocalDate write SetLocalDate;
   end;
 
-  TModelList < T: class > = class
-  private
-    FItemsList: TObjectList<T>;
-    function GetItemsList: TObjectList<T>;
-    procedure SetItemsList(const Value: TObjectList<T>);
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Add(aItem: T);
-    property ItemsList: TObjectList<T> read GetItemsList write SetItemsList;
-  end;
 
 implementation
 
@@ -130,40 +126,6 @@ procedure TModel.SetLocalTime(const Value: string);
 begin
   FLocalTime := Value;
 end;
-{$ENDREGION}
-{$REGION '< TModelList >'}
-
-procedure TModelList<T>.Add(aItem: T);
-begin
-  FItemsList.Add(aItem);
-end;
-
-constructor TModelList<T>.Create;
-begin
-  inherited;
-
-  FItemsList := TObjectList<T>.Create(true);
-end;
-
-destructor TModelList<T>.Destroy;
-begin
-  if Assigned(FItemsList) then
-    FItemsList.Clear;
-  FItemsList.Free;
-
-  inherited;
-end;
-
-function TModelList<T>.GetItemsList: TObjectList<T>;
-begin
-  Result := FItemsList;
-end;
-
-procedure TModelList<T>.SetItemsList(const Value: TObjectList<T>);
-begin
-  FItemsList := Value;
-end;
-
 {$ENDREGION}
 
 end.

@@ -54,7 +54,7 @@ var
 implementation
 
 uses
-  System.JSON;
+  uModel, uModelList, uListViewCommand;
 
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
@@ -77,62 +77,21 @@ end;
 
 procedure TfrmTicketmaster.GetListBySuccess(aJSONContent: string);
 var
-  jsonResponse, embeddedObj, item, datesObj, startArr: TJSONObject;
-  events: TJSONArray;
-  eventName, eventUrl, localTime, localDate: string;
-  i: integer;
+  eventList: TModelList<TModel>;
+  listViewCmd: IListViewCommand;
+  item: TModel;
 begin
-  jsonResponse := TJSONObject.ParseJSONValue(aJSONContent) as TJSONObject;
+  eventList := TModelList<TModel>.Create;
   try
-    if Assigned(jsonResponse) then
+    listViewCmd:= TListViewCommand.Create;
+    FController.FillEventListBySuccess(RESTResponse.Content, eventList);
+    for item in eventList.ItemsList do
     begin
-      // JSON Object.
-      embeddedObj := (jsonResponse.GetValue('_embedded') as TJSONObject);
-      if Assigned(embeddedObj) then
-      begin
-        // Events list.
-        events := (embeddedObj.GetValue('events') as TJSONArray);
-        if Assigned(events) then
-        begin
-          for i := 0 to events.Count - 1 do
-          begin
-            // One event.
-            item := events.Items[i] as TJSONObject;
-            if Assigned(item) then
-            begin
-              // Get properties.
-              eventName := (item.GetValue('name') as TJSONString).ToString;
-              eventUrl := (item.GetValue('url') as TJSONString).ToString;
-
-              datesObj := (item.GetValue('dates') as TJSONObject);
-              if Assigned(datesObj) then
-              begin
-                startArr := (datesObj.GetValue('start') as TJSONObject);
-                if Assigned(startArr) then
-                begin
-                  localDate :=
-                    (startArr.GetValue('localDate') as TJSONString).ToString;
-                  localTime :=
-                    (startArr.GetValue('localTime') as TJSONString).ToString;
-                end;
-              end;
-            end;
-          end;
-        end
-        else
-        begin
-          // Error case
-
-        end;
-      end
-      else
-      begin
-        // Error case
-
-      end;
+      listViewCmd.AddItemToList(item.EventName, item.EventUrl,
+        item.LocalTime, item.LocalDate, lvEventsList);
     end;
   finally
-    jsonResponse.DisposeOf;
+    eventList.Free;
   end;
 end;
 

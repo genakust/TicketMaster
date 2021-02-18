@@ -76,10 +76,11 @@ end;
 
 procedure TfrmTicketmaster.FormShow(Sender: TObject);
 begin
-  // Is here because DM- module should be created first.
-  FController := TController.Create;
   // Create a logger.
   FLogger:= TLogger.GetInstance;
+  // Is here because DM- module should be created first.
+  FController := TController.Create(FLogger);
+
   ListViewCreateColumn;
 end;
 

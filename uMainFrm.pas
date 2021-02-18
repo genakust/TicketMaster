@@ -180,8 +180,8 @@ begin
       except
         on E: Exception do
         begin
-          FErrorText := rsError + RESTResponse.ErrorMessage + ' ' + rsError +
-            E.Message;
+          FErrorText := rsError + ' ' + RESTResponse.ErrorMessage + ' ' + rsError +
+            ' ' + E.Message;
           // Log error message into debug window.
           FLogger.Log(FErrorText);
         end;

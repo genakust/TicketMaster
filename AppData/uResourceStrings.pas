@@ -4,7 +4,7 @@ interface
 
 resourcestring
   rsIsBusy = 'Loading';
-  rsError = 'Error: ';
+  rsError = 'Error';
 
 implementation
 

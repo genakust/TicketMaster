@@ -37,7 +37,7 @@ uses
   System.SysUtils;
 
 { TController }
-{$REGION '< Create/Show/Destroy >'}
+{$REGION '< Create/Destroy >'}
 
 constructor TController.Create(aLogger: TLogger);
 begin

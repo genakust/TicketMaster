@@ -8,7 +8,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
-  uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList;
+  uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
+  uGK.Logger;
 
 type
   TfrmTicketmaster = class(TForm)
@@ -34,6 +35,7 @@ type
     cbSearchWord: TComboBox;
     actAddSearchWordsToList: TAction;
     StatusBar1: TStatusBar;
+    actStartRestRequest: TAction;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -43,8 +45,10 @@ type
     procedure actAddSearchWordsToListExecute(Sender: TObject);
     procedure cbSearchWordKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure actStartRestRequestExecute(Sender: TObject);
   private
     FController: TController;
+    FLogger: TLogger;
     FErrorText: string;
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
@@ -74,7 +78,8 @@ procedure TfrmTicketmaster.FormShow(Sender: TObject);
 begin
   // Is here because DM- module should be created first.
   FController := TController.Create;
-
+  // Create a logger.
+  FLogger:= TLogger.GetInstance;
   ListViewCreateColumn;
 end;
 
@@ -91,10 +96,15 @@ begin
   try
     listViewCmd := TListViewCommand.Create;
     FController.FillEventListBySuccess(RESTResponse.Content, eventList);
-    for item in eventList.ItemsList do
-    begin
-      listViewCmd.AddItemToList(item.EventName, item.EventUrl, item.LocalTime,
-        item.LocalDate, lvEventsList);
+    lvEventsList.Items.BeginUpdate;
+    try
+      for item in eventList.ItemsList do
+      begin
+        listViewCmd.AddItemToList(item.EventName, item.EventUrl, item.LocalTime,
+          item.LocalDate, lvEventsList);
+      end;
+    finally
+      lvEventsList.Items.EndUpdate;
     end;
   finally
     eventList.Free;
@@ -102,11 +112,44 @@ begin
 end;
 
 procedure TfrmTicketmaster.btnSearchClick(Sender: TObject);
+begin
+  actStartRestRequestExecute(nil);
+end;
+
+{$ENDREGION}
+{$REGION '< Actionslist >'}
+
+procedure TfrmTicketmaster.actAddSearchWordsToListExecute(Sender: TObject);
+var
+  text: string;
+  ind: integer;
+begin
+  cbSearchWord.Items.BeginUpdate;
+  try
+    text := cbSearchWord.text;
+    ind := cbSearchWord.Items.Add(text);
+    cbSearchWord.ItemIndex := ind;
+  finally
+    cbSearchWord.Items.EndUpdate;
+  end;
+end;
+
+procedure TfrmTicketmaster.actProgressBarProgressExecute(Sender: TObject);
+const
+  kPROGRESS: integer = 10;
+begin
+  if ProgressBar.Position < ProgressBar.Max then
+    ProgressBar.Position := ProgressBar.Position + kPROGRESS
+  else
+    ProgressBar.Position := ProgressBar.Min;
+end;
+
+procedure TfrmTicketmaster.actStartRestRequestExecute(Sender: TObject);
 var
   newTask: ITask;
 begin
   RESTClient.BaseURL := FController.GetJSONRequestForSearch
-    (cbSearchWord.Items[cbPlatform.ItemIndex],
+    (cbSearchWord.Items[cbSearchWord.ItemIndex],
     cbPlatform.Items[cbPlatform.ItemIndex],
     cbCountry.Items[cbCountry.ItemIndex]);
 
@@ -129,13 +172,17 @@ begin
         else
         begin
           // Error handling.
-          FErrorText := '';
+          FErrorText := RESTResponse.StatusCode.ToString;
+          // Log error message into debug window.
+          FLogger.Log(FErrorText);
         end;
       except
         on E: Exception do
         begin
           FErrorText := rsError + RESTResponse.ErrorMessage + ' ' + rsError +
             E.Message;
+          // Log error message into debug window.
+          FLogger.Log(FErrorText);
         end;
       end;
 
@@ -146,34 +193,8 @@ begin
         end);
     end);
   newTask.Start;
-
 end;
 
-{$ENDREGION}
-{$REGION '< Actionslist >'}
-
-procedure TfrmTicketmaster.actAddSearchWordsToListExecute(Sender: TObject);
-var
-  text: string;
-begin
-  cbSearchWord.Items.BeginUpdate;
-  try
-    text:=cbSearchWord.Items[cbPlatform.ItemIndex];
-    cbSearchWord.Items.Add(text);
-  finally
-    cbSearchWord.Items.EndUpdate;
-  end;
-end;
-
-procedure TfrmTicketmaster.actProgressBarProgressExecute(Sender: TObject);
-const
-  kPROGRESS: integer = 10;
-begin
-  if ProgressBar.Position < ProgressBar.Max then
-    ProgressBar.Position := ProgressBar.Position + kPROGRESS
-  else
-    ProgressBar.Position := ProgressBar.Min;
-end;
 {$ENDREGION}
 {$REGION '< Timer >'}
 

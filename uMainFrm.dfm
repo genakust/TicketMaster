@@ -154,7 +154,6 @@ object frmTicketmaster: TfrmTicketmaster
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFF}
       OnClick = btnSearchClick
-      ExplicitLeft = 473
       ExplicitTop = -4
     end
     object btnSettings: TSpeedButton
@@ -296,6 +295,7 @@ object frmTicketmaster: TfrmTicketmaster
       Top = 1
       Width = 404
       Height = 29
+      Margins.Bottom = 7
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -312,8 +312,6 @@ object frmTicketmaster: TfrmTicketmaster
         'Adele'
         'Pop'
         'Rock')
-      ExplicitLeft = 55
-      ExplicitTop = -4
     end
   end
   object panDefaults: TPanel
@@ -364,6 +362,7 @@ object frmTicketmaster: TfrmTicketmaster
       Top = 1
       Width = 150
       Height = 27
+      Margins.Bottom = 5
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -379,12 +378,15 @@ object frmTicketmaster: TfrmTicketmaster
         'Universe'
         'FrontGate Tickets'
         'Ticketmaster Resale')
+      ExplicitLeft = 233
+      ExplicitTop = -2
     end
     object cbCountry: TComboBox
       Left = 63
       Top = 1
       Width = 98
       Height = 27
+      Margins.Bottom = 5
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -422,8 +424,6 @@ object frmTicketmaster: TfrmTicketmaster
       TabOrder = 0
       ViewStyle = vsReport
       OnColumnClick = lvEventsListColumnClick
-      ExplicitLeft = 2
-      ExplicitHeight = 447
     end
     object StatusBar1: TStatusBar
       Left = 1
@@ -435,9 +435,6 @@ object frmTicketmaster: TfrmTicketmaster
           Text = 'Status: '
           Width = 50
         end>
-      ExplicitLeft = 448
-      ExplicitTop = 424
-      ExplicitWidth = 0
     end
   end
   object panActivityPanel: TPanel
@@ -512,6 +509,10 @@ object frmTicketmaster: TfrmTicketmaster
     object actAddSearchWordsToList: TAction
       Caption = 'actAddSearchWordsToList'
       OnExecute = actAddSearchWordsToListExecute
+    end
+    object actStartRestRequest: TAction
+      Caption = 'actStartRestRequest'
+      OnExecute = actStartRestRequestExecute
     end
   end
 end

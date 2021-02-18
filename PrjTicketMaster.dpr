@@ -12,7 +12,8 @@ uses
   uModel in 'Model\uModel.pas',
   uJsonUtills in 'JSON\uJsonUtills.pas',
   uListViewCommand in 'ListView\uListViewCommand.pas',
-  uListViewSort in 'ListView\uListViewSort.pas';
+  uListViewSort in 'ListView\uListViewSort.pas',
+  uGK.Logger in 'Logger\uGK.Logger.pas';
 
 {$R *.res}
 

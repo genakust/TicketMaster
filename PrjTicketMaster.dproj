@@ -119,6 +119,7 @@
         <DCCReference Include="JSON\uJsonUtills.pas"/>
         <DCCReference Include="ListView\uListViewCommand.pas"/>
         <DCCReference Include="ListView\uListViewSort.pas"/>
+        <DCCReference Include="Logger\uGK.Logger.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

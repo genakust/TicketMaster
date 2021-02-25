@@ -9,7 +9,8 @@ uses
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
-  uGK.Logger;
+  uGK.Logger, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
+  Data.Bind.EngExt, Vcl.Bind.DBEngExt;
 
 type
   TfrmTicketmaster = class(TForm)
@@ -36,6 +37,9 @@ type
     actAddSearchWordsToList: TAction;
     StatusBar1: TStatusBar;
     actStartRestRequest: TAction;
+    PrototypeBindSource1: TPrototypeBindSource;
+    BindingsList1: TBindingsList;
+    LinkListControlToField1: TLinkListControlToField;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);

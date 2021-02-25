@@ -2,7 +2,7 @@
 Coordinates=427,155,155,36
 
 [cbPlatform]
-Coordinates=252,10,101,124
+Coordinates=600,190,101,124
 
 [StatusBar1]
 Coordinates=378,364,78,58
@@ -29,7 +29,7 @@ Coordinates=474,10,101,124
 Coordinates=466,364,77,58
 
 [lvEventsList]
-Coordinates=126,10,116,212
+Coordinates=140,80,116,212
 Visible=True
 
 [panDefaults]
@@ -63,11 +63,18 @@ Coordinates=427,430,78,36
 Coordinates=102,364,76,58
 
 [cbCountry]
-Coordinates=363,10,101,124
+Coordinates=710,100,101,124
 
 [actStartRestRequest]
 Coordinates=632,1,133,36
 
 []
-Coordinates=427,485,91,36
+Coordinates=135,241,91,36
+
+[PrototypeBindSource1]
+Coordinates=290,90,143,146
+Visible=True
+
+[BindingsList1]
+Coordinates=135,1,91,36
 

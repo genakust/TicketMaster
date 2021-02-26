@@ -234,9 +234,13 @@ end;
 
 procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
 var ABindSourceAdapter: TBindSourceAdapter);
+var
+  model: TModel;
 begin
-  FEventList.Add(TModel.Create('name1', 'url1', 'date1', 'time1'));
-  FEventList.Add(TModel.Create('name2', 'url2', 'date2', 'time2'));
+  model := TModel.Create('name1', 'url1', 'date1', 'time1');
+  FEventList.Add(model);
+  model := TModel.Create('name2', 'url2', 'date2', 'time2');
+  FEventList.Add(model);
   ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
     FEventList, true);
 end;

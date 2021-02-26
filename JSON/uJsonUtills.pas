@@ -9,7 +9,7 @@ type
   IGetEventListFromJson = interface
     ['{113BF1C8-B2DC-450F-8284-D698C2D348DC}']
     procedure FillEventList(const aJSONContent: string;
-      var aEventList: TModelList<TModel>);
+      var aEventList: TObjectList<TModel>);
   end;
 
   TJsonUtills = class(TInterfacedObject, IGetEventListFromJson)
@@ -17,7 +17,7 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure FillEventList(const aJSONContent: string;
-      var aEventList: TModelList<TModel>);
+      var aEventList: TObjectList<TModel>);
   end;
 
 implementation
@@ -40,13 +40,12 @@ begin
 end;
 
 procedure TJsonUtills.FillEventList(const aJSONContent: string;
-  var aEventList: TModelList<TModel>);
+  var aEventList: TObjectList<TModel>);
 var
   jsonResponse, embeddedObj, item, datesObj, startArr: TJSONObject;
   events: TJSONArray;
   eventName, eventUrl, localTime, localDate: string;
   i: integer;
-  eventObj: TModel;
 begin
   // Start with JSON.
   jsonResponse := TJSONObject.ParseJSONValue(aJSONContent) as TJSONObject;

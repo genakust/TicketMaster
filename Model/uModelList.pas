@@ -7,7 +7,7 @@ uses
 
 type
 
-  TModelList<T: class> = class
+  TModelList<T: class> = class(TObjectList<T>)
   private
     FItemsList: TObjectList<T>;
     function GetItemsList: TObjectList<T>;

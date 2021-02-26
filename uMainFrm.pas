@@ -11,7 +11,7 @@ uses
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   uGK.Logger, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
   Data.Bind.EngExt, Vcl.Bind.DBEngExt, uModel, uModelList, uListViewCommand,
-  uListViewSort;
+  uListViewSort, Vcl.Bind.GenData, Data.Bind.GenData;
 
 type
   TfrmTicketmaster = class(TForm)
@@ -40,7 +40,7 @@ type
     actStartRestRequest: TAction;
     PrototypeBindSource1: TPrototypeBindSource;
     BindingsList1: TBindingsList;
-    LinkListControlToField1: TLinkListControlToField;
+    LinkFillControlToField1: TLinkFillControlToField;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -91,7 +91,8 @@ end;
 
 constructor TfrmTicketmaster.Create(AOwner: TComponent);
 begin
-  FEventList := TObjectList<TModel>.Create;
+  FEventList := TObjectList<TModel>.Create(true);
+  FEventList.OwnsObjects:= true;
   inherited;
 end;
 
@@ -99,27 +100,14 @@ end;
 {$REGION '< Get data from request >'}
 
 procedure TfrmTicketmaster.GetListBySuccess(aJSONContent: string);
-var
-  eventList: TModelList<TModel>;
-  listViewCmd: IListViewCommand;
-  item: TModel;
 begin
-  eventList := TModelList<TModel>.Create;
   try
-    listViewCmd := TListViewCommand.Create;
-    FController.FillEventListBySuccess(RESTResponse.Content, eventList);
-    lvEventsList.Items.BeginUpdate;
-    try
-      for item in eventList.ItemsList do
-      begin
-        listViewCmd.AddItemToList(item.EventName, item.EventUrl, item.LocalTime,
-          item.LocalDate, lvEventsList);
-      end;
-    finally
-      lvEventsList.Items.EndUpdate;
-    end;
+    if FEventList.Count > 0 then
+      FEventList.Clear;
+    FController.FillEventListBySuccess(RESTResponse.Content,FEventList);
+    BindingsList1.Notify(FEventList, '');
   finally
-    eventList.Free;
+
   end;
 end;
 
@@ -239,8 +227,8 @@ end;
 {$REGION '< ListView >'}
 
 procedure TfrmTicketmaster.ListViewCreateColumn;
-var
-  newCol: TListColumn;
+// var
+// newCol: TListColumn;
 begin
   // newCol := lvEventsList.Columns.Add;
   // newCol.Caption := 'Event Name';
@@ -275,6 +263,8 @@ end;
 procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
 var ABindSourceAdapter: TBindSourceAdapter);
 begin
+FEventList.Add(TModel.Create('name1', 'url1', 'date1', 'time1'));
+FEventList.Add(TModel.Create('name2', 'url2', 'date2', 'time2'));
   ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
     FEventList, True);
 end;

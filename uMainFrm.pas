@@ -10,7 +10,8 @@ uses
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   uGK.Logger, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
-  Data.Bind.EngExt, Vcl.Bind.DBEngExt;
+  Data.Bind.EngExt, Vcl.Bind.DBEngExt, uModel, uModelList, uListViewCommand,
+  uListViewSort;
 
 type
   TfrmTicketmaster = class(TForm)
@@ -50,25 +51,25 @@ type
     procedure cbSearchWordKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actStartRestRequestExecute(Sender: TObject);
+    procedure PrototypeBindSource1CreateAdapter(Sender: TObject;
+      var ABindSourceAdapter: TBindSourceAdapter);
   private
     FController: TController;
     FLogger: TLogger;
     FErrorText: string;
+    FEventList: TObjectList<TModel>;
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
     procedure GetListBySuccess(aJSONContent: string);
     procedure ListViewCreateColumn;
   public
-    { Public-Deklarationen }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
   frmTicketmaster: TfrmTicketmaster;
 
 implementation
-
-uses
-  uModel, uModelList, uListViewCommand, uListViewSort;
 
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
@@ -81,11 +82,17 @@ end;
 procedure TfrmTicketmaster.FormShow(Sender: TObject);
 begin
   // Create a logger.
-  FLogger:= TLogger.GetInstance;
+  FLogger := TLogger.GetInstance;
   // Is here because DM- module should be created first.
   FController := TController.Create(FLogger);
 
   ListViewCreateColumn;
+end;
+
+constructor TfrmTicketmaster.Create(AOwner: TComponent);
+begin
+  FEventList := TObjectList<TModel>.Create;
+  inherited;
 end;
 
 {$ENDREGION}
@@ -184,8 +191,8 @@ begin
       except
         on E: Exception do
         begin
-          FErrorText := rsError + ' ' + RESTResponse.ErrorMessage + ' ' + rsError +
-            ' ' + E.Message;
+          FErrorText := rsError + ' ' + RESTResponse.ErrorMessage + ' ' +
+            rsError + ' ' + E.Message;
           // Log error message into debug window.
           FLogger.Log(FErrorText);
         end;
@@ -235,25 +242,25 @@ procedure TfrmTicketmaster.ListViewCreateColumn;
 var
   newCol: TListColumn;
 begin
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Event Name';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 100;
-
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Event Url';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 140;
-
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Local Time';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 140;
-
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Local Date';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 140;
+  // newCol := lvEventsList.Columns.Add;
+  // newCol.Caption := 'Event Name';
+  // newCol.Alignment := taLeftJustify;
+  // newCol.Width := 100;
+  //
+  // newCol := lvEventsList.Columns.Add;
+  // newCol.Caption := 'Event Url';
+  // newCol.Alignment := taLeftJustify;
+  // newCol.Width := 140;
+  //
+  // newCol := lvEventsList.Columns.Add;
+  // newCol.Caption := 'Local Time';
+  // newCol.Alignment := taLeftJustify;
+  // newCol.Width := 140;
+  //
+  // newCol := lvEventsList.Columns.Add;
+  // newCol.Caption := 'Local Date';
+  // newCol.Alignment := taLeftJustify;
+  // newCol.Width := 140;
 end;
 
 procedure TfrmTicketmaster.lvEventsListColumnClick(Sender: TObject;
@@ -263,6 +270,13 @@ var
 begin
   lvCmd := TListViewCommand.Create;
   lvCmd.ColumnSort(lvEventsList, Column);
+end;
+
+procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
+var ABindSourceAdapter: TBindSourceAdapter);
+begin
+  ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
+    FEventList, True);
 end;
 
 {$ENDREGION}

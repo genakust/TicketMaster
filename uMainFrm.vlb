@@ -69,7 +69,8 @@ Coordinates=710,100,84,105
 Coordinates=632,1,115,33
 
 []
-Coordinates=135,241,91,36
+Coordinates=290,240,116,51
+Visible=True
 
 [PrototypeBindSource1]
 Coordinates=290,90,125,123

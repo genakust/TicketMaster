@@ -40,7 +40,7 @@ type
     actStartRestRequest: TAction;
     PrototypeBindSource1: TPrototypeBindSource;
     BindingsList1: TBindingsList;
-    LinkFillControlToField1: TLinkFillControlToField;
+    LinkListControlToField1: TLinkListControlToField;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -61,7 +61,6 @@ type
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
     procedure GetListBySuccess(aJSONContent: string);
-    procedure ListViewCreateColumn;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -85,14 +84,12 @@ begin
   FLogger := TLogger.GetInstance;
   // Is here because DM- module should be created first.
   FController := TController.Create(FLogger);
-
-  ListViewCreateColumn;
 end;
 
 constructor TfrmTicketmaster.Create(AOwner: TComponent);
 begin
   FEventList := TObjectList<TModel>.Create(true);
-  FEventList.OwnsObjects:= true;
+  FEventList.OwnsObjects := true;
   inherited;
 end;
 
@@ -104,7 +101,7 @@ begin
   try
     if FEventList.Count > 0 then
       FEventList.Clear;
-    FController.FillEventListBySuccess(RESTResponse.Content,FEventList);
+    FController.FillEventListBySuccess(RESTResponse.Content, FEventList);
     BindingsList1.Notify(FEventList, '');
   finally
 
@@ -210,9 +207,9 @@ procedure TfrmTicketmaster.ShowActivityPanel(const MessageText: string);
 begin
   panActivityPanel.Alignment := TAlignment.taCenter;
   labMessageText.Caption := MessageText;
-  panActivityPanel.Visible := True;
+  panActivityPanel.Visible := true;
   // start progress bar
-  tmrProgress.Enabled := True;
+  tmrProgress.Enabled := true;
 end;
 
 procedure TfrmTicketmaster.HideActivityPanel;
@@ -226,31 +223,6 @@ end;
 {$ENDREGION}
 {$REGION '< ListView >'}
 
-procedure TfrmTicketmaster.ListViewCreateColumn;
-// var
-// newCol: TListColumn;
-begin
-  // newCol := lvEventsList.Columns.Add;
-  // newCol.Caption := 'Event Name';
-  // newCol.Alignment := taLeftJustify;
-  // newCol.Width := 100;
-  //
-  // newCol := lvEventsList.Columns.Add;
-  // newCol.Caption := 'Event Url';
-  // newCol.Alignment := taLeftJustify;
-  // newCol.Width := 140;
-  //
-  // newCol := lvEventsList.Columns.Add;
-  // newCol.Caption := 'Local Time';
-  // newCol.Alignment := taLeftJustify;
-  // newCol.Width := 140;
-  //
-  // newCol := lvEventsList.Columns.Add;
-  // newCol.Caption := 'Local Date';
-  // newCol.Alignment := taLeftJustify;
-  // newCol.Width := 140;
-end;
-
 procedure TfrmTicketmaster.lvEventsListColumnClick(Sender: TObject;
 Column: TListColumn);
 var
@@ -263,10 +235,10 @@ end;
 procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
 var ABindSourceAdapter: TBindSourceAdapter);
 begin
-FEventList.Add(TModel.Create('name1', 'url1', 'date1', 'time1'));
-FEventList.Add(TModel.Create('name2', 'url2', 'date2', 'time2'));
+  FEventList.Add(TModel.Create('name1', 'url1', 'date1', 'time1'));
+  FEventList.Add(TModel.Create('name2', 'url2', 'date2', 'time2'));
   ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
-    FEventList, True);
+    FEventList, true);
 end;
 
 {$ENDREGION}
@@ -285,6 +257,6 @@ end;
 
 initialization
 
-ReportMemoryLeaksOnShutdown := True;
+ReportMemoryLeaksOnShutdown := true;
 
 end.

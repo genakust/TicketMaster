@@ -102,7 +102,6 @@ begin
     if FEventList.Count > 0 then
       FEventList.Clear;
     FController.FillEventListBySuccess(RESTResponse.Content, FEventList);
-    BindingsList1.Notify(FEventList, '');
   finally
 
   end;
@@ -232,19 +231,6 @@ begin
   lvCmd.ColumnSort(lvEventsList, Column);
 end;
 
-procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
-var ABindSourceAdapter: TBindSourceAdapter);
-var
-  model: TModel;
-begin
-  model := TModel.Create('name1', 'url1', 'date1', 'time1');
-  FEventList.Add(model);
-  model := TModel.Create('name2', 'url2', 'date2', 'time2');
-  FEventList.Add(model);
-  ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
-    FEventList, true);
-end;
-
 {$ENDREGION}
 {$REGION '< ComboBox SearchWord >'}
 
@@ -258,7 +244,22 @@ begin
 end;
 
 {$ENDREGION}
-
+{$REGION '< Binding >'}
+procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
+var ABindSourceAdapter: TBindSourceAdapter);
+var
+  model: TModel;
+begin
+  model := TModel.Create('name1', 'url1', 'date1', 'time1');
+  FEventList.Add(model);
+  model := TModel.Create('name2', 'url2', 'date2', 'time2');
+  FEventList.Add(model);
+  ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
+    FEventList, true);
+  ABindSourceAdapter.AutoEdit:= true;
+  ABindSourceAdapter.AutoPost:= true;
+end;
+ {$ENDREGION}
 initialization
 
 ReportMemoryLeaksOnShutdown := true;

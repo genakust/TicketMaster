@@ -94,9 +94,14 @@ end;
 
 procedure TfrmTicketmaster.GetListBySuccess(aJSONContent: string);
 begin
+  if FEventList.Count > 0 then
+    FEventList.Clear;
+  // Get the list with data.
   FController.FillEventListBySuccess(RESTResponse.Content, FEventList);
-  if AdapterBindSource1.Editing then
-      AdapterBindSource1.Post;
+  // Notify about changes.
+  AdapterBindSource1.ApplyUpdates;
+//  if AdapterBindSource1.Editing then
+//      AdapterBindSource1.Post;
 end;
 
 procedure TfrmTicketmaster.btnSearchClick(Sender: TObject);

@@ -246,11 +246,6 @@ var
   item: TModel;
 begin
   FEventList := TModelList.Create(true);
-
-  item:= TModel.Create('name1', 'url1', 'time1', 'date1');
-  FEventList.Add(item);
-   item:= TModel.Create('name2', 'url2', 'time2', 'date2');
-  FEventList.Add(item);
   ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(Self,
     FEventList, true);
 end;

@@ -3,8 +3,7 @@ unit uController;
 interface
 
 uses
-  uTiketmasterApi, uAppData, uJsonUtills, uModel, uModelList, uGK.Logger,
-  System.Generics.Collections;
+  uTiketmasterApi, uAppData, uJsonUtills, uModel, System.Generics.Collections, uGK.Logger;
 
 type
 

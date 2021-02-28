@@ -9,9 +9,8 @@ uses
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
-  uGK.Logger, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
-  Data.Bind.EngExt, Vcl.Bind.DBEngExt, uModel, uModelList, uListViewCommand,
-  uListViewSort, Vcl.Bind.GenData, Data.Bind.GenData;
+  uGK.Logger, uModel, Vcl.Bind.GenData, System.Rtti, System.Bindings.Outputs,
+  Vcl.Bind.Editors, Data.Bind.EngExt, Vcl.Bind.DBEngExt;
 
 type
   TfrmTicketmaster = class(TForm)
@@ -38,7 +37,8 @@ type
     actAddSearchWordsToList: TAction;
     StatusBar1: TStatusBar;
     actStartRestRequest: TAction;
-    PrototypeBindSource1: TPrototypeBindSource;
+    AdapterBindSource1: TAdapterBindSource;
+    DataGeneratorAdapter1: TDataGeneratorAdapter;
     BindingsList1: TBindingsList;
     LinkListControlToField1: TLinkListControlToField;
     procedure FormDestroy(Sender: TObject);
@@ -51,24 +51,27 @@ type
     procedure cbSearchWordKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actStartRestRequestExecute(Sender: TObject);
-    procedure PrototypeBindSource1CreateAdapter(Sender: TObject;
+    procedure AdapterBindSource1CreateAdapter(Sender: TObject;
       var ABindSourceAdapter: TBindSourceAdapter);
   private
     FController: TController;
     FLogger: TLogger;
     FErrorText: string;
-    FEventList: TObjectList<TModel>;
+    FEventList: TModelList;
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
     procedure GetListBySuccess(aJSONContent: string);
   public
-    constructor Create(AOwner: TComponent); override;
+    { Public-Deklarationen }
   end;
 
 var
   frmTicketmaster: TfrmTicketmaster;
 
 implementation
+
+uses
+  uListViewCommand, uListViewSort;
 
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
@@ -86,25 +89,19 @@ begin
   FController := TController.Create(FLogger);
 end;
 
-constructor TfrmTicketmaster.Create(AOwner: TComponent);
-begin
-  FEventList := TObjectList<TModel>.Create(true);
-  FEventList.OwnsObjects := true;
-  inherited;
-end;
-
 {$ENDREGION}
 {$REGION '< Get data from request >'}
 
 procedure TfrmTicketmaster.GetListBySuccess(aJSONContent: string);
 begin
-  try
-    if FEventList.Count > 0 then
-      FEventList.Clear;
-    FController.FillEventListBySuccess(RESTResponse.Content, FEventList);
-  finally
-
-  end;
+  if FEventList.Count > 0 then
+    FEventList.Clear;
+  // Get the list with data.
+  FController.FillEventListBySuccess(RESTResponse.Content, FEventList);
+  // Notify about changes.
+  AdapterBindSource1.ApplyUpdates;
+//  if AdapterBindSource1.Editing then
+//      AdapterBindSource1.Post;
 end;
 
 procedure TfrmTicketmaster.btnSearchClick(Sender: TObject);
@@ -242,21 +239,18 @@ end;
 
 {$ENDREGION}
 {$REGION '< Binding >'}
-procedure TfrmTicketmaster.PrototypeBindSource1CreateAdapter(Sender: TObject;
+
+procedure TfrmTicketmaster.AdapterBindSource1CreateAdapter(Sender: TObject;
 var ABindSourceAdapter: TBindSourceAdapter);
 var
-  model: TModel;
+  item: TModel;
 begin
-  model := TModel.Create('name1', 'url1', 'date1', 'time1');
-  FEventList.Add(model);
-  model := TModel.Create('name2', 'url2', 'date2', 'time2');
-  FEventList.Add(model);
-  ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(self,
+  FEventList := TModelList.Create(true);
+  ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(Self,
     FEventList, true);
-  ABindSourceAdapter.AutoEdit:= true;
-  ABindSourceAdapter.AutoPost:= true;
 end;
- {$ENDREGION}
+{$ENDREGION}
+
 initialization
 
 ReportMemoryLeaksOnShutdown := true;

@@ -378,14 +378,12 @@ object frmTicketmaster: TfrmTicketmaster
         'Universe'
         'FrontGate Tickets'
         'Ticketmaster Resale')
-      ExplicitLeft = 233
-      ExplicitTop = -2
     end
     object cbCountry: TComboBox
       Left = 63
       Top = 1
       Width = 98
-      Height = 27
+      Height = 28
       Margins.Bottom = 5
       Align = alLeft
       Font.Charset = DEFAULT_CHARSET
@@ -449,7 +447,7 @@ object frmTicketmaster: TfrmTicketmaster
     object labMessageText: TLabel
       Left = 1
       Top = 1
-      Width = 215
+      Width = 70
       Height = 24
       Align = alTop
       Alignment = taCenter
@@ -461,7 +459,6 @@ object frmTicketmaster: TfrmTicketmaster
       Font.Style = []
       ParentFont = False
       Layout = tlCenter
-      ExplicitWidth = 70
     end
     object ProgressBar: TProgressBar
       Left = 40

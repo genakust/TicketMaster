@@ -46,7 +46,6 @@ var
   events: TJSONArray;
   eventName, eventUrl, localTime, localDate: string;
   i: integer;
-  eventObj: TModel;
 begin
   // Start with JSON.
   jsonResponse := TJSONObject.ParseJSONValue(aJSONContent) as TJSONObject;

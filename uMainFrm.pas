@@ -9,7 +9,8 @@ uses
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
-  uGK.Logger;
+  uGK.Logger, uModel, Vcl.Bind.GenData, System.Rtti, System.Bindings.Outputs,
+  Vcl.Bind.Editors, Data.Bind.EngExt, Vcl.Bind.DBEngExt;
 
 type
   TfrmTicketmaster = class(TForm)
@@ -36,6 +37,10 @@ type
     actAddSearchWordsToList: TAction;
     StatusBar1: TStatusBar;
     actStartRestRequest: TAction;
+    AdapterBindSource1: TAdapterBindSource;
+    DataGeneratorAdapter1: TDataGeneratorAdapter;
+    BindingsList1: TBindingsList;
+    LinkListControlToField1: TLinkListControlToField;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
@@ -46,14 +51,16 @@ type
     procedure cbSearchWordKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actStartRestRequestExecute(Sender: TObject);
+    procedure AdapterBindSource1CreateAdapter(Sender: TObject;
+      var ABindSourceAdapter: TBindSourceAdapter);
   private
     FController: TController;
     FLogger: TLogger;
     FErrorText: string;
+    FEventList: TModelList;
     procedure ShowActivityPanel(const MessageText: string);
     procedure HideActivityPanel;
     procedure GetListBySuccess(aJSONContent: string);
-    procedure ListViewCreateColumn;
   public
     { Public-Deklarationen }
   end;
@@ -64,7 +71,7 @@ var
 implementation
 
 uses
-  uModel, uModelList, uListViewCommand, uListViewSort;
+  uListViewCommand, uListViewSort;
 
 {$R *.dfm}
 {$REGION '< Form Create/Show/Destroy >'}
@@ -77,39 +84,19 @@ end;
 procedure TfrmTicketmaster.FormShow(Sender: TObject);
 begin
   // Create a logger.
-  FLogger:= TLogger.GetInstance;
+  FLogger := TLogger.GetInstance;
   // Is here because DM- module should be created first.
   FController := TController.Create(FLogger);
-
-  ListViewCreateColumn;
 end;
 
 {$ENDREGION}
 {$REGION '< Get data from request >'}
 
 procedure TfrmTicketmaster.GetListBySuccess(aJSONContent: string);
-var
-  eventList: TModelList<TModel>;
-  listViewCmd: IListViewCommand;
-  item: TModel;
 begin
-  eventList := TModelList<TModel>.Create;
-  try
-    listViewCmd := TListViewCommand.Create;
-    FController.FillEventListBySuccess(RESTResponse.Content, eventList);
-    lvEventsList.Items.BeginUpdate;
-    try
-      for item in eventList.ItemsList do
-      begin
-        listViewCmd.AddItemToList(item.EventName, item.EventUrl, item.LocalTime,
-          item.LocalDate, lvEventsList);
-      end;
-    finally
-      lvEventsList.Items.EndUpdate;
-    end;
-  finally
-    eventList.Free;
-  end;
+  FController.FillEventListBySuccess(RESTResponse.Content, FEventList);
+  if AdapterBindSource1.Editing then
+      AdapterBindSource1.Post;
 end;
 
 procedure TfrmTicketmaster.btnSearchClick(Sender: TObject);
@@ -180,8 +167,8 @@ begin
       except
         on E: Exception do
         begin
-          FErrorText := rsError + ' ' + RESTResponse.ErrorMessage + ' ' + rsError +
-            ' ' + E.Message;
+          FErrorText := rsError + ' ' + RESTResponse.ErrorMessage + ' ' +
+            rsError + ' ' + E.Message;
           // Log error message into debug window.
           FLogger.Log(FErrorText);
         end;
@@ -211,9 +198,9 @@ procedure TfrmTicketmaster.ShowActivityPanel(const MessageText: string);
 begin
   panActivityPanel.Alignment := TAlignment.taCenter;
   labMessageText.Caption := MessageText;
-  panActivityPanel.Visible := True;
+  panActivityPanel.Visible := true;
   // start progress bar
-  tmrProgress.Enabled := True;
+  tmrProgress.Enabled := true;
 end;
 
 procedure TfrmTicketmaster.HideActivityPanel;
@@ -226,31 +213,6 @@ end;
 
 {$ENDREGION}
 {$REGION '< ListView >'}
-
-procedure TfrmTicketmaster.ListViewCreateColumn;
-var
-  newCol: TListColumn;
-begin
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Event Name';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 100;
-
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Event Url';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 140;
-
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Local Time';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 140;
-
-  newCol := lvEventsList.Columns.Add;
-  newCol.Caption := 'Local Date';
-  newCol.Alignment := taLeftJustify;
-  newCol.Width := 140;
-end;
 
 procedure TfrmTicketmaster.lvEventsListColumnClick(Sender: TObject;
 Column: TListColumn);
@@ -271,9 +233,26 @@ begin
 end;
 
 {$ENDREGION}
+{$REGION '< Binding >'}
+
+procedure TfrmTicketmaster.AdapterBindSource1CreateAdapter(Sender: TObject;
+var ABindSourceAdapter: TBindSourceAdapter);
+var
+  item: TModel;
+begin
+  FEventList := TModelList.Create(true);
+
+  item:= TModel.Create('name1', 'url1', 'time1', 'date1');
+  FEventList.Add(item);
+   item:= TModel.Create('name2', 'url2', 'time2', 'date2');
+  FEventList.Add(item);
+  ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(Self,
+    FEventList, true);
+end;
+{$ENDREGION}
 
 initialization
 
-ReportMemoryLeaksOnShutdown := True;
+ReportMemoryLeaksOnShutdown := true;
 
 end.

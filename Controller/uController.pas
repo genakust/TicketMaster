@@ -3,7 +3,7 @@ unit uController;
 interface
 
 uses
-  uTiketmasterApi, uAppData, uJsonUtills, uModel, uModelList, uGK.Logger;
+  uTiketmasterApi, uAppData, uJsonUtills, uModel, System.Generics.Collections, uGK.Logger;
 
 type
 
@@ -28,7 +28,7 @@ type
     /// <summary> Fill event list from request.
     /// </summary>
     procedure FillEventListBySuccess(const aJSONContent: string;
-      var aEventList: TModelList<TModel>);
+      var aEventList: TObjectList<TModel>);
   end;
 
 implementation
@@ -63,7 +63,7 @@ begin
 end;
 
 procedure TController.FillEventListBySuccess(const aJSONContent: string;
-  var aEventList: TModelList<TModel>);
+  var aEventList: TObjectList<TModel>);
 begin
   try
     // Fill the list.

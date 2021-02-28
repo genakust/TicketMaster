@@ -2,6 +2,9 @@ unit uModel;
 
 interface
 
+uses
+  System.Generics.Collections;
+
 type
   /// <summary> Represents an Item.
   /// </summary>
@@ -19,7 +22,7 @@ type
     procedure SetLocalTime(const Value: string);
   public
     constructor Create; overload;
-    ///<summary>Set variable values
+    /// <summary>Set variable values
     /// </summary>
     /// <param name="aEventName">Event name.
     /// </param>
@@ -38,6 +41,8 @@ type
     property LocalTime: string read GetLocalTime write SetLocalTime;
     property LocalDate: string read GetLocalDate write SetLocalDate;
   end;
+
+  TModelList = TObjectList<TModel>;
 
 
 implementation

@@ -1,73 +1,84 @@
 ﻿[actProgressBarProgress]
-Coordinates=427,155,155,36
+Coordinates=427,155,135,33
 
 [cbPlatform]
-Coordinates=252,10,101,124
+Coordinates=252,10,84,105
 
 [StatusBar1]
-Coordinates=378,364,78,58
+Coordinates=378,364,68,51
 
 [ProgressBar]
-Coordinates=282,364,86,58
+Coordinates=282,364,76,51
 
 [btnSettings]
-Coordinates=276,454,79,36
+Coordinates=276,454,70,33
 
 [actAddSearchWordsToList]
-Coordinates=427,265,167,36
+Coordinates=427,265,146,33
 
 [tmrProgress]
-Coordinates=427,320,85,36
+Coordinates=427,320,75,33
 
 [RESTClient]
-Coordinates=10,364,82,80
+Coordinates=10,364,70,69
 
 [cbSearchWord]
-Coordinates=474,10,101,124
+Coordinates=474,10,87,105
 
 [labCountry]
-Coordinates=466,364,77,58
+Coordinates=466,364,68,51
 
 [lvEventsList]
-Coordinates=126,10,116,212
+Coordinates=290,130,97,231
 Visible=True
 
 [panDefaults]
-Coordinates=672,364,83,58
+Coordinates=672,364,73,51
 
 [panActivityPanel]
-Coordinates=10,454,110,58
+Coordinates=10,454,97,51
 
 [labMessageText]
-Coordinates=553,364,109,58
+Coordinates=553,364,93,51
 
 [btnSearch]
-Coordinates=193,454,73,36
+Coordinates=193,454,64,33
 
 [RESTRequest]
-Coordinates=585,10,96,102
+Coordinates=585,10,82,87
 
 [panListView]
-Coordinates=188,364,84,58
+Coordinates=188,364,74,51
 
 [RESTResponse]
-Coordinates=10,10,106,344
+Coordinates=10,10,91,285
 
 [Label1]
-Coordinates=130,454,53,58
+Coordinates=130,454,46,51
 
 [ActionList1]
-Coordinates=427,430,78,36
+Coordinates=427,430,70,33
 
 [panSearch]
-Coordinates=102,364,76,58
+Coordinates=102,364,67,51
 
 [cbCountry]
-Coordinates=363,10,101,124
+Coordinates=363,10,84,105
 
 [actStartRestRequest]
-Coordinates=632,1,133,36
+Coordinates=632,1,115,33
 
 []
 Coordinates=427,485,91,36
+
+[DataGeneratorAdapter1]
+Visible=False
+Coordinates=242,134,130,33
+
+[AdapterBindSource1]
+Coordinates=140,130,116,141
+Visible=True
+
+[BindingsList1]
+Coordinates=120,1,82,33
 

@@ -3,25 +3,9 @@ unit uModel;
 interface
 
 type
-  IModel = interface
-    ['{ECAC6E3F-6A02-4A52-8B55-C47A2DDE960B}']
-    function GetEventName: string;
-    function GetEventUrl: string;
-    function GetLocalDate: string;
-    function GetLocalTime: string;
-    procedure SetEventName(const Value: string);
-    procedure SetEventUrl(const Value: string);
-    procedure SetLocalDate(const Value: string);
-    procedure SetLocalTime(const Value: string);
-    property EventName: string read GetEventName write SetEventName;
-    property EventUrl: string read GetEventUrl write SetEventUrl;
-    property LocalTime: string read GetLocalTime write SetLocalTime;
-    property LocalDate: string read GetLocalDate write SetLocalDate;
-  end;
-
   /// <summary> Represents an Item.
   /// </summary>
-  TModel = class(TInterfacedObject, IModel)
+  TModel = class
   private
     FEventName, FEventUrl, FLocalTime, FLocalDate: string;
     (* Properties *)

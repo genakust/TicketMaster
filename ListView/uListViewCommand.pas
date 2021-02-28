@@ -25,9 +25,6 @@ type
     procedure AddItemToList(const aEventName, aEventUrl, aLocalTime,
       aLocalDate: string; aListView: TListView);
     procedure DeleteSelectedItem(aListView: TListView);
-    /// <summary> Function to column sort.
-    /// </summary>
-    procedure ColumnSort(aListView: TListView; aColumn: TListColumn);
   end;
 
   TListViewCommand = class(TInterfacedObject, IListViewCommand)
@@ -55,7 +52,7 @@ type
     procedure DeleteSelectedItem(aListView: TListView);
     /// <summary> Function to column sort.
     /// </summary>
-    procedure ColumnSort(aListView: TListView; aColumn: TListColumn);
+    class procedure ColumnSort(aListView: TListView; aColumn: TListColumn);
   end;
 
 implementation
@@ -89,7 +86,7 @@ begin
   end;
 end;
 
-procedure TListViewCommand.ColumnSort(aListView: TListView; aColumn: TListColumn);
+class procedure TListViewCommand.ColumnSort(aListView: TListView; aColumn: TListColumn);
 var
   colToSort: integer;
 begin

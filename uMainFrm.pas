@@ -224,11 +224,8 @@ end;
 
 procedure TfrmTicketmaster.lvEventsListColumnClick(Sender: TObject;
 Column: TListColumn);
-var
-  lvCmd: IListViewCommand;
 begin
-  lvCmd := TListViewCommand.Create;
-  lvCmd.ColumnSort(lvEventsList, Column);
+  TListViewCommand.ColumnSort(lvEventsList, Column);
 end;
 
 {$ENDREGION}

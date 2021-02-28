@@ -242,8 +242,6 @@ end;
 
 procedure TfrmTicketmaster.AdapterBindSource1CreateAdapter(Sender: TObject;
 var ABindSourceAdapter: TBindSourceAdapter);
-var
-  item: TModel;
 begin
   FEventList := TModelList.Create(true);
   ABindSourceAdapter := TListBindSourceAdapter<TModel>.Create(Self,

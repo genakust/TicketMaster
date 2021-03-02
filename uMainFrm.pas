@@ -9,8 +9,8 @@ uses
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, System.Threading,
   uResourceStrings, uController, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
-  uGK.Logger, uModel, Vcl.Bind.GenData, System.Rtti, System.Bindings.Outputs,
-  Vcl.Bind.Editors, Data.Bind.EngExt, Vcl.Bind.DBEngExt;
+  uGK.Logger, Vcl.Bind.GenData, Data.Bind.EngExt, Vcl.Bind.DBEngExt,
+  System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, uModel;
 
 type
   TfrmTicketmaster = class(TForm)

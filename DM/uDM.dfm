@@ -5,10 +5,9 @@ object DataModule1: TDataModule1
   object FDConnection: TFDConnection
     Params.Strings = (
       
-        'Database=D:\Dokumente\Embarcadero\Studio\Projekte\TicketMaster\D' +
-        'M\Database.sqlite'
+        'Database=C:\Users\genak\OneDrive\Dokumente\Embarcadero\Studio\Pr' +
+        'ojekte\TicketMaster\DM\Database.sqlite'
       'DriverID=SQLite')
-    Connected = True
     LoginPrompt = False
     Left = 24
     Top = 72
